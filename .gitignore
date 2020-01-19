@@ -1,2 +1,4 @@
 # Ignoring idea binaries
 **/.idea
+**/out
+
