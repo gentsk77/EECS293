@@ -1,4 +1,13 @@
-# Ignoring idea binaries
+# Ignoring idea project binaries
 **/.idea
 **/out
+
+# Ignoring vscode maven project binaries
+**/.vscode
+**/.settings
+**/target
+.classpath
+.project
+pom.xml
+
 

@@ -1,5 +1,6 @@
+package pa1;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -66,30 +67,6 @@ public class PA1 {
     private static <T> void sanityCheck(List<T> a, List<T> b, Comparator<? super T> cmp) throws IOException {
         if (a == null || b == null || cmp == null) {
             throw new IOException("Check input type for null value.");
-        }
-    }
-
-    public static void main(String[] args) {
-        List<Integer> a = new ArrayList<>();
-        a.add(1);
-        a.add(2);
-        List<Integer> b = new ArrayList<>();
-        b.add(1);
-        b.add(3);
-        List<String> c = new ArrayList<>();
-        c.add("a");
-        c.add("a");
-        c.add("b");
-
-        List<String> d = new ArrayList<>();
-        d.add("a");
-        d.add("b");
-        List<String> result;
-        try {
-            result = longestSmallerPrefix(c, d, Comparator.naturalOrder());
-            System.out.println(result);
-        } catch (IOException e) {
-
         }
     }
 }
