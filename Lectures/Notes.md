@@ -1,6 +1,16 @@
 # EECS293 Lecture Notes
 
+> Software Craftsmanship Spring 2020
+> Yue Shu
+
 ## Week One
+
+- [EECS293 Lecture Notes](#eecs293-lecture-notes)
+  - [Week One](#week-one)
+    - [Iterative vs Sequential development](#iterative-vs-sequential-development)
+    - [Problem Definition](#problem-definition)
+    - [Requirement Development](#requirement-development)
+    - [Software Architecture](#software-architecture)
 
 ### Iterative vs Sequential development 
 
