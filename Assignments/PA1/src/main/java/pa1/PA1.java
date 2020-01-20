@@ -7,8 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * PA1 contains the source code for Programming Assignment 1. EECS293 Spring
- * 2020, Prof. Liberatore
+ * PA1 contains the source code for Programming Assignment 1.
+ * 
+ * EECS293 Spring 2020, Prof. Liberatore
  *
  * @author Yue Shu
  */
