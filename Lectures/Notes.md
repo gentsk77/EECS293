@@ -11,6 +11,11 @@
     - [Problem Definition](#problem-definition)
     - [Requirement Development](#requirement-development)
     - [Software Architecture](#software-architecture)
+  - [Week Two](#week-two)
+    - [Straight Line Code](#straight-line-code)
+    - [Strings](#strings)
+    - [Floating Point Calculation](#floating-point-calculation)
+    - [Prefer Lists to Arrays](#prefer-lists-to-arrays)
 
 ### Iterative vs Sequential development 
 
@@ -116,3 +121,46 @@ struct myData; // use as argument
 ```
 
 - in `Ruby` no need to use `return`
+
+## Week Two
+
+### Straight Line Code
+
+- sequence of instructions without branching (if/for/etc.)
+- shud organize the logical order of the straight line codes when there are dependencies/order of executions required
+- highlight the logic orders in your code: 
+  - insert parameters in each invocation of the methods to indicate modification on the data
+
+### Strings
+
+- not the best data type to use 
+- for example
+
+```Java
+
+String lastName;
+String age;
+String option;
+```
+
+- use int instead of String for `age`
+- use emum instead of String for `option`
+- inappropriate use of string as aggregate type
+
+```Java
+
+String compoundKey = className + "#" + i.next();
+```
+
+- in the exmaple above you have to parse the string every time, declare a new class to contain the compound information 
+
+
+### Floating Point Calculation
+
+- for anything that require precise number (such as in monetary calculation), it's inappropriate to use floating point numbers
+- instead of using double, use int (aka make the unit cent instead of dollar); could also use long to avoid overflow
+- when the data is too large, use `BigInteger`, a built-in type supported by Java, allows infinitely large numbers until the memory of computer overflows
+
+### Prefer Lists to Arrays
+
+- uable to declare generic arrays
