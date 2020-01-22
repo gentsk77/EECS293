@@ -1,16 +1,3 @@
-# Ignoring idea project binaries
-**/.idea
-**/out
-**/bin
-
-# Ignoring vscode maven project binaries
-**/.vscode
-**/.settings
-**/target
-.classpath
-.project
-pom.xml
-
 #
 # Standard Maven .gitignore
 #
