@@ -6,11 +6,18 @@
 ## Week One
 
 - [EECS293 Lecture Notes](#eecs293-lecture-notes)
-  - [Week One](#week-one)
-    - [Iterative vs Sequential development](#iterative-vs-sequential-development)
-    - [Problem Definition](#problem-definition)
-    - [Requirement Development](#requirement-development)
-    - [Software Architecture](#software-architecture)
+	- [Week One](#week-one)
+		- [Iterative vs Sequential development](#iterative-vs-sequential-development)
+		- [Problem Definition](#problem-definition)
+		- [Requirement Development](#requirement-development)
+		- [Software Architecture](#software-architecture)
+	- [Week Two](#week-two)
+		- [Straight Line Code](#straight-line-code)
+		- [Strings](#strings)
+		- [Floating Point Calculation](#floating-point-calculation)
+		- [Prefer Lists to Arrays](#prefer-lists-to-arrays)
+		- [Boolean Expressions](#boolean-expressions)
+		- [Conditional Statements (if, else, switch)](#conditional-statements-if-else-switch)
 
 ### Iterative vs Sequential development 
 
@@ -105,14 +112,127 @@ Java vs Python vs ...
 eg: 
 - Into: program classes from Java in C
 - in `myClass.c`:
-``` c
-int x; // static
+  ``` c
+  int x; // static
 
-void foo(int y) {
-    ...
-}
+  void foo(int y) {
+      ...
+  }
 
-struct myData; // use as argument 
-```
+  struct myData; // use as argument 
+  ```
 
 - in `Ruby` no need to use `return`
+
+## Week Two
+
+### Straight Line Code
+
+- sequence of instructions without branching (if/for/etc.)
+- shud organize the logical order of the straight line codes when there are dependencies/order of executions required
+- highlight the logic orders in your code: 
+  - insert parameters in each invocation of the methods to indicate modification on the data
+
+### Strings
+
+- not the best data type to use 
+- for example
+
+  ```Java
+
+  String lastName;
+  String age;
+  String option;
+  ```
+
+- use int instead of String for `age`
+- use emum instead of String for `option`
+- inappropriate use of string as aggregate type
+
+  ```Java
+
+  String compoundKey = className + "#" + i.next();
+  ```
+
+- in the exmaple above you have to parse the string every time, declare a new class to contain the compound information 
+
+
+### Floating Point Calculation
+
+- for anything that require precise number (such as in monetary calculation), it's inappropriate to use floating point numbers
+- instead of using double, use int (aka make the unit cent instead of dollar); could also use long to avoid overflow
+- when the data is too large, use `BigInteger`, a built-in type supported by Java, allows infinitely large numbers until the memory of computer overflows
+
+### Prefer Lists to Arrays
+
+- uable to declare generic arrays
+
+### Boolean Expressions
+
+- should write code for better readibility rather than for your own convenience
+- never compare with true or false using `if (Error == true)`, do `if (error)` and `if (!error)` instead
+
+  ``` Java
+
+  boolean areSufficientlyLarge(int x, int y) {
+    if (x > 3 && y > 4) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  ```
+
+- change the code block above to one line of `return x > 3 && y > 4`
+- use short-circuit evaluation (logical AND) in most cases
+- try to avoid the nested if block below
+
+  ``` Java
+
+  if (x == 0) {
+    if (y > 0) {
+      ...
+    }
+  }
+  ```
+
+- to express $ 0 < x <= 13$, write `0 < x && x <= 13` instead of `x > 0 && x <= 13`
+- `==` compares the references instead of the actual equivalence
+- `.equals()` compares the actual content inside (aka the equivalence), pre-defined in most object classes
+
+### Conditional Statements (if, else, switch)
+
+- use else clause even if it's just a comment -- put helpful comments to indicate you've thought about the condition (eg: the case shouldn't happen, etc.
+- **Avoiding Deep Nesting**
+  1. exit the clause before entering the nested conditional statement (make the checking at the beginning)
+  2. cut blocks of nested if statements, make it into a method to segment different sections of conditions and responsibilities
+  3. create a table for input to map the outputs instead of creating blocks of conditional statements as the example below
+
+    ``` Java
+
+    charType = charTypeTable[input char];
+    ```
+
+- **Avoiding Multiple Switches**
+
+  ``` Java
+
+  switch (X) {
+    case (a) {
+      ...
+    }
+
+    case (b) {
+      ...
+    }
+
+    case (c) {
+      ...
+    }
+  }
+  ```
+
+  - instead of using multiple cases in switch as above, create classes `A`, `B`, `C` implementing interface `X`
+  - override proper version of methods in each of `A`, `B`, `C` from `X` method stub
+  - 
