@@ -20,17 +20,12 @@ public final class TypeName {
     }
 
     public static final TypeName of(String identifier) {
-        try {
-            sanityCheck(identifier);
+        sanityCheck(identifier);
 
-            TypeName typeName = new TypeName(identifier);
-            definedTypeNames.put(identifier, typeName);
+        TypeName typeName = new TypeName(identifier);
+        definedTypeNames.put(identifier, typeName);
 
-            return typeName;
-        } catch (IllegalStateException exception) {
-            System.out.println("Another TypeName with the same identifier has already been defined.");
-            throw exception;
-        }
+        return typeName;
     }
 
     public String getIdentifier() {

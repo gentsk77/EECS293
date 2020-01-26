@@ -13,8 +13,7 @@ public final class BasicType extends SimpleTypeEntry {
             TypeName typeName = TypeName.of(identifier);
             return new BasicType(typeName);
         } catch (IllegalStateException exception) {
-            System.out.println("Another BasicType with the same identifier has already been defined.");
-            throw exception;
+            throw new IllegalStateException("Another BasicType with the same identifier has already been defined.");
         }
     }
 
