@@ -8,12 +8,16 @@ public final class BasicType extends SimpleTypeEntry {
         this.typeName = typeName;
     }
 
-    public static final BasicType of (String identifier) {
-        // TODO: check for possible exceptions
-        TypeName typeName = TypeName.of(identifier);
-        return new BasicType(typeName);
+    public static final BasicType of(String identifier) {
+        try {
+            TypeName typeName = TypeName.of(identifier);
+            return new BasicType(typeName);
+        } catch (IllegalStateException exception) {
+            System.out.println("Another BasicType with the same identifier has already been defined.");
+            throw exception;
+        }
     }
-    
+
     public TypeName getTypeName() {
         return this.typeName;
     }
@@ -26,5 +30,5 @@ public final class BasicType extends SimpleTypeEntry {
     public String toString() {
         return this.typeName.toString();
     }
-    
+
 }
