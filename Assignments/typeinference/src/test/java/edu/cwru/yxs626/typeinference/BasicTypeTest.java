@@ -27,7 +27,7 @@ public class BasicTypeTest {
             typeNameField = BasicType.class.getDeclaredField("typeName");
             typeNameField.setAccessible(true);
             TypeName typeName = (TypeName) typeNameField.get(basicType);
-    
+
             // test valid typeName
             assertEquals("TypeName doesn't match.", typeName, basicType.getTypeName());
         } catch (NoSuchFieldException e) {
@@ -62,6 +62,5 @@ public class BasicTypeTest {
         } catch (IllegalStateException exception) {
             assertTrue(true);
         }
-
     }
 }
