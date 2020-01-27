@@ -10,4 +10,5 @@
 .project
 pom.xml
 
-
+# Ignoring mac binaries
+**/.DS_Store

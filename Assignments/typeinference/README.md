@@ -34,15 +34,16 @@ You should see some output similar as below:
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ typeinference ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /home/gentsk77/GitHub/EECS293/Assignments/typeinference/src/main/resources
+[INFO] skip non existing resourceDirectory /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/src/main/resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ typeinference ---
-[INFO] Nothing to compile - all classes are up to date
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 7 source files to /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/target/classes
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  0.582 s
-[INFO] Finished at: 2020-01-27T02:55:55Z
+[INFO] Total time:  1.649 s
+[INFO] Finished at: 2020-01-27T17:29:48-05:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -63,28 +64,49 @@ The output should be similar as below:
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ typeinference ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /home/gentsk77/GitHub/EECS293/Assignments/typeinference/src/main/resources
+[INFO] skip non existing resourceDirectory /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ typeinference ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 7 source files to /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.649 s
+[INFO] Finished at: 2020-01-27T17:29:48-05:00
+[INFO] ------------------------------------------------------------------------
+(base) Yues-MacBook-Pro:typeinference GenTsuki$ mvn test -f pom.xml
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< edu.cwru.yxs626:typeinference >--------------------
+[INFO] Building typeinference 1
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ typeinference ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/src/main/resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ typeinference ---
 [INFO] Nothing to compile - all classes are up to date
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ typeinference ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /home/gentsk77/GitHub/EECS293/Assignments/typeinference/src/test/resources
+[INFO] skip non existing resourceDirectory /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/src/test/resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ typeinference ---
-[INFO] Nothing to compile - all classes are up to date
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/target/test-classes
 [INFO] 
 [INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ typeinference ---
-[INFO] Surefire report directory: /home/gentsk77/GitHub/EECS293/Assignments/typeinference/target/surefire-reports
+[INFO] Surefire report directory: /Users/GenTsuki/Desktop/EECS293/Assignments/typeinference/target/surefire-reports
 
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running edu.cwru.yxs626.typeinference.BasicTypeTest
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 sec
 Running edu.cwru.yxs626.typeinference.TypeNameTest
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.087 sec
+Running edu.cwru.yxs626.typeinference.BasicTypeTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
 
 Results :
 
@@ -93,8 +115,8 @@ Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.024 s
-[INFO] Finished at: 2020-01-27T03:00:07Z
+[INFO] Total time:  2.313 s
+[INFO] Finished at: 2020-01-27T17:30:43-05:00
 [INFO] ------------------------------------------------------------------------
 ```
 
