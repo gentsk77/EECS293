@@ -11,6 +11,9 @@
 .project
 pom.xml
 
+# Ignoring mac binaries
+**/.DS_Store
+
 #
 # Standard Maven .gitignore
 #

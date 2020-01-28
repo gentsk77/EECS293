@@ -10,7 +10,7 @@ public interface Type {
     /**
      * Determines whether the type is a variable, such as T.
      * 
-     * @return true if the Type is a varialbe, false elsewise.
+     * @return true if the Type is a varialbe, false elsewise
      */
     public boolean isVariable();
 }
