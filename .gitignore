@@ -1,6 +1,7 @@
 # Ignoring idea project binaries
 **/.idea
 **/out
+**/bin
 
 # Ignoring vscode maven project binaries
 **/.vscode
@@ -12,3 +13,31 @@ pom.xml
 
 # Ignoring mac binaries
 **/.DS_Store
+
+#
+# Standard Maven .gitignore
+#
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+#
+# IntelliJ
+#
+*.iml
+.idea/*
+!.idea/runConfigurations/
+
+#
+# Visual Studio Code
+#
+.settings/
+.classpath
+.project
+.vscode/
