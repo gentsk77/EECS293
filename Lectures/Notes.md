@@ -6,18 +6,20 @@
 ## Week One
 
 - [EECS293 Lecture Notes](#eecs293-lecture-notes)
-	- [Week One](#week-one)
-		- [Iterative vs Sequential development](#iterative-vs-sequential-development)
-		- [Problem Definition](#problem-definition)
-		- [Requirement Development](#requirement-development)
-		- [Software Architecture](#software-architecture)
-	- [Week Two](#week-two)
-		- [Straight Line Code](#straight-line-code)
-		- [Strings](#strings)
-		- [Floating Point Calculation](#floating-point-calculation)
-		- [Prefer Lists to Arrays](#prefer-lists-to-arrays)
-		- [Boolean Expressions](#boolean-expressions)
-		- [Conditional Statements (if, else, switch)](#conditional-statements-if-else-switch)
+  - [Week One](#week-one)
+    - [Iterative vs Sequential development](#iterative-vs-sequential-development)
+    - [Problem Definition](#problem-definition)
+    - [Requirement Development](#requirement-development)
+    - [Software Architecture](#software-architecture)
+  - [Week Two](#week-two)
+    - [Straight Line Code](#straight-line-code)
+    - [Strings](#strings)
+    - [Floating Point Calculation](#floating-point-calculation)
+    - [Prefer Lists to Arrays](#prefer-lists-to-arrays)
+    - [Boolean Expressions](#boolean-expressions)
+    - [Conditional Statements (if, else, switch)](#conditional-statements-if-else-switch)
+  - [Week Three](#week-three)
+    - [Discussion on HW2](#discussion-on-hw2)
 
 ### Iterative vs Sequential development 
 
@@ -235,4 +237,35 @@ eg:
 
   - instead of using multiple cases in switch as above, create classes `A`, `B`, `C` implementing interface `X`
   - override proper version of methods in each of `A`, `B`, `C` from `X` method stub
-  - 
+
+## Week Three
+
+### Discussion on HW2
+
+- Use the one-line code below to require a parameter to be not null.
+
+  ``` Java
+
+  Objects.requireNonNull(identifier);
+  ```
+
+- structure: `user` - `interface` (the API) - `core`
+- we use builder to allow the users to interact in the interface, and the builder then invoke the constructor
+- in the case of `typeinference::TypeName`, the constructor is in the core package, and `of` is the builder, in the interface.
+- always make the content in the lambda expression `final` for stream
+
+  ``` Java
+  if (!allidentifiersadd(Objects.requireNotNull(identifier))) {
+    throw new IllegalStateException();
+  }
+  ```
+
+- helper method > comment
+- have an individual class as the database instead of using static field
+- make nested class for testing mock (have non-static field for testing, not for actual usge)
+- getter below constructor
+- builder, constructor, getter
+- override at very bottom
+- put helper closer to the method
+- overloading `BasicType::of`
+- just assume using basic type 
