@@ -8,6 +8,8 @@
 - [EECS293 Lecture Notes](#eecs293-lecture-notes)
 	- [Week One](#week-one)
 		- [Iterative vs Sequential development](#iterative-vs-sequential-development)
+			- [Sequential](#sequential)
+			- [Iterative](#iterative)
 		- [Problem Definition](#problem-definition)
 		- [Requirement Development](#requirement-development)
 		- [Software Architecture](#software-architecture)
@@ -18,14 +20,22 @@
 		- [Prefer Lists to Arrays](#prefer-lists-to-arrays)
 		- [Boolean Expressions](#boolean-expressions)
 		- [Conditional Statements (if, else, switch)](#conditional-statements-if-else-switch)
+	- [Week Three](#week-three)
+		- [Discussion on HW2](#discussion-on-hw2)
+		- [Loops](#loops)
+			- [Entering the Loop](#entering-the-loop)
+			- [Middle of Loop](#middle-of-loop)
+			- [Exiting the Loop](#exiting-the-loop)
 
 ### Iterative vs Sequential development 
 
-**Sequential** 
+#### Sequential
+
 - could somehow jump directly to a solution
 - major steps: requirement development -> construction planning -> software architecture -> unit testing -> integration testing etc. 
 
-**Iterative**
+#### Iterative
+
 - more flexible way 
 - define problem first
 - resent prototype that demo only parts of the features
@@ -235,4 +245,124 @@ eg:
 
   - instead of using multiple cases in switch as above, create classes `A`, `B`, `C` implementing interface `X`
   - override proper version of methods in each of `A`, `B`, `C` from `X` method stub
-  - 
+
+## Week Three
+
+### Discussion on HW2
+
+- Use the one-line code below to require a parameter to be not null.
+
+  ``` Java
+
+  Objects.requireNonNull(identifier);
+  ```
+
+- structure: `user` - `interface` (the API) - `core`
+- we use builder to allow the users to interact in the interface, and the builder then invoke the constructor
+- in the case of `typeinference::TypeName`, the constructor is in the core package, and `of` is the builder, in the interface.
+- always make the content in the lambda expression `final` for stream
+
+  ``` Java
+  if (!allidentifiersadd(Objects.requireNotNull(identifier))) {
+    throw new IllegalStateException();
+  }
+  ```
+
+- helper method > comment
+- have an individual class as the database instead of using static field
+- make nested class for testing mock (have non-static field for testing, not for actual usge)
+- getter below constructor
+- builder, constructor, getter
+- override at very bottom
+- put helper closer to the method
+- overloading `BasicType::of`
+- just assume using basic type 
+
+### Loops
+
+- `for`, `while`, `do ... while`, `for-each`
+
+  ``` Java
+
+  /* argument: list of widgets, return total weight of red widgets */
+  int redWeight(List<Widget> widgets) {
+  var sum = 0;
+  for (var i = 0; i < widgets.size(); i++) {
+    var widget = widget.get(i);
+    if (widget.getColor() == RED) {
+      sum += widget.getWeight();
+    }
+  }
+  return sum;
+  }
+  ```
+
+- problems with the code above:
+  - go back to the primitive data structure of array, abandoned the nice features of List
+  - the list could potentially be a LinkedList, which requires $O(n^2)$ time to finish the entire program
+- use for-each loop instead:
+
+  ``` Java
+
+  int redWeight(List<Widget> widgets) {
+  var sum = 0;
+  for (Widget widget: widgets) {
+    if (widget.getColor() == RED) {
+      sum += widget.getWeight();
+    }
+  }
+  return sum;
+  }
+  ```
+
+- always use for-each unless there's a very compelling reason to use for
+- could also apply Stream to replace loops and simplify the code
+
+#### Entering the Loop
+
+(refer to the code in the previous section)
+
+- initialization code
+
+	``` Java
+
+	var sum = 0;
+	```
+
+- should be kept as close to the beginning of the loop as possible
+- use appropriate for loop header so that the initializer of the loop, the check termination, and the make progress part fit in logically
+- use while instead of for loop when appropriate
+- use for each loop when the object is `Iterable`
+- `while (true)` vs `for (i = 0; i < LARGENUMBER; i++>)`
+  - in general, use the former one when an infinite loop is needed
+  - could conscioulsy use a safe limit as the latter one instead of infinite loop for error handling
+
+#### Middle of Loop
+
+- keep house keeping statement all together (eg: at the bottom)
+
+#### Exiting the Loop
+
+- do not alter the increment value to confuse loop exit
+  - use a break statement instead when needed
+- do not put a lot of break statements in your code
+  - confuses when/where to exit the loop
+- use break to avoid code repetition
+- always label the break statements when you use one
+
+``` Java
+
+do {
+	...
+	switch
+		...
+		CALL_CENTER_DOWN:
+		if () {
+			...
+			break CALL_CENTER_DOWN;
+			...
+		}
+		...
+} while (...);
+}
+```

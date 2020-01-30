@@ -55,6 +55,12 @@ public class PA1Tester {
         }
 
         // test fail
+        // test fail
+        try {
+            PA1.longestSmallerPrefix(null, b, null);
+            fail();
+        } catch (IOException exception) {
 
+        }
     }
 }
