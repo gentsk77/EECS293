@@ -6,26 +6,33 @@
 ## Week One
 
 - [EECS293 Lecture Notes](#eecs293-lecture-notes)
-	- [Week One](#week-one)
-		- [Iterative vs Sequential development](#iterative-vs-sequential-development)
-			- [Sequential](#sequential)
-			- [Iterative](#iterative)
-		- [Problem Definition](#problem-definition)
-		- [Requirement Development](#requirement-development)
-		- [Software Architecture](#software-architecture)
-	- [Week Two](#week-two)
-		- [Straight Line Code](#straight-line-code)
-		- [Strings](#strings)
-		- [Floating Point Calculation](#floating-point-calculation)
-		- [Prefer Lists to Arrays](#prefer-lists-to-arrays)
-		- [Boolean Expressions](#boolean-expressions)
-		- [Conditional Statements (if, else, switch)](#conditional-statements-if-else-switch)
-	- [Week Three](#week-three)
-		- [Discussion on HW2](#discussion-on-hw2)
-		- [Loops](#loops)
-			- [Entering the Loop](#entering-the-loop)
-			- [Middle of Loop](#middle-of-loop)
-			- [Exiting the Loop](#exiting-the-loop)
+  - [Week One](#week-one)
+    - [Iterative vs Sequential development](#iterative-vs-sequential-development)
+      - [Sequential](#sequential)
+      - [Iterative](#iterative)
+    - [Problem Definition](#problem-definition)
+    - [Requirement Development](#requirement-development)
+    - [Software Architecture](#software-architecture)
+  - [Week Two](#week-two)
+    - [Straight Line Code](#straight-line-code)
+    - [Strings](#strings)
+    - [Floating Point Calculation](#floating-point-calculation)
+    - [Prefer Lists to Arrays](#prefer-lists-to-arrays)
+    - [Boolean Expressions](#boolean-expressions)
+    - [Conditional Statements (if, else, switch)](#conditional-statements-if-else-switch)
+  - [Week Three](#week-three)
+    - [Discussion on HW2](#discussion-on-hw2)
+    - [Loops](#loops)
+      - [Entering the Loop](#entering-the-loop)
+      - [Middle of Loop](#middle-of-loop)
+      - [Exiting the Loop](#exiting-the-loop)
+      - [Break/Early Return](#breakearly-return)
+    - [Structure Code](#structure-code)
+      - [Three Types of Structure Code](#three-types-of-structure-code)
+    - [Complexity](#complexity)
+      - [Complexity Measurement by McCabe](#complexity-measurement-by-mccabe)
+      - [Assignment Complexity Requirement](#assignment-complexity-requirement)
+      - [Fix Complexity](#fix-complexity)
 
 ### Iterative vs Sequential development 
 
@@ -366,3 +373,46 @@ do {
 } while (...);
 }
 ```
+
+#### Break/Early Return
+
+- avoid duplicate code in the loops
+- changing a while loop to a do while loop might not solve the problem
+- sometime we might need a break statement or an early return as the solution
+
+### Structure Code
+
+#### Three Types of Structure Code
+
+1. sequential code
+2. conditional code
+3. loop statements
+
+### Complexity
+
+- inherent, you cannot remove it, yet should manage it
+- cyclamatic complexity is related to the number of **branches** in the code
+
+#### Complexity Measurement by McCabe
+
+- start from 0
+- add 1 for each of the following key words:
+  - `if`, `while`, `do-while`, `for`
+  - `&&`, `||` (branching points with short-circuiting)
+    - `if(a && b)` is equally complexed as `if(a) { if (b)}`
+  - every single `case`
+- add 0 for the following:
+  - `switch`, `else`, `default`, `!`
+  - `try-catch()-finally`, `throw`
+
+#### Assignment Complexity Requirement
+
+- 0 - 4: possibly fine
+- \> 4: automatic C for the assignment
+- in general, the smaller the better
+
+#### Fix Complexity
+
+- break into routines
+- OO approach (object factories)
+- apply table-driven methods (hashtable, etc.)
