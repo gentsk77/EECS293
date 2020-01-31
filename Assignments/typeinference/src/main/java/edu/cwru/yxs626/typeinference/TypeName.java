@@ -36,10 +36,11 @@ public final class TypeName {
      * @return a new TypeName
      */
     public static final TypeName of(String identifier) {
-        // validates the input, throws exceptions if the input fails the sanity test
-        sanityCheck(identifier);
+        // validates the input, throws exceptions if the input fails the identifier test
+        checkIdentifier(identifier);
 
-        // the rest of the code would not be reached if the input fails the sanity test
+        // the rest of the code would not be reached if the input fails the identifier
+        // test
 
         TypeName typeName = new TypeName(identifier);
         // maps the identifier with the created type name
@@ -72,15 +73,14 @@ public final class TypeName {
      * 
      * @param identifier the identifier to be validated
      */
-    private static void sanityCheck(String identifier) {
+    private static void checkIdentifier(String identifier) {
         if (identifier == null) {
             throw new NullPointerException("The input identifier is null");
         }
         // if there is already a TypeName declared from the input identifier
         else if (definedTypeNames.containsKey(identifier)) {
             throw new IllegalStateException("Another TypeName with the same identifier has already been defined.");
-        } else {
-            // the input identifier pass the test, nothing to be done
         }
+        // else the input identifier pass the test, nothing to be done
     }
 }
