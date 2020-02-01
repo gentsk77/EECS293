@@ -1,5 +1,8 @@
 package edu.cwru.yxs626.typeinference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * SimpleTypeEntry provides a default implementation of some of the TypeEntry
  * methods that are adequate for simple type entries, such as Integer or T, but
@@ -20,4 +23,8 @@ public abstract class SimpleTypeEntry extends AbstractTypeEntry implements Type 
         return this;
     }
 
+    @Override
+    public List<TypeEntry> getSubTypes() {
+        return new ArrayList<>();
+    }
 }

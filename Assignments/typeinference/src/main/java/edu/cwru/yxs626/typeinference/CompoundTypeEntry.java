@@ -1,5 +1,6 @@
 package edu.cwru.yxs626.typeinference;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,24 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append(this.getType().toString() + "<");
+        
+        Iterator<TypeEntry> subTypeIterator = subTypes.iterator();
+        
+        APPEND_SUBTYPES:
+        while(subTypeIterator.hasNext()) {
+            sb.append(subTypeIterator.next().toString());
+
+            if(!subTypeIterator.hasNext()) {
+                break APPEND_SUBTYPES;
+            } 
+            // else there are still at least one element left
+
+            sb.append(",");
+        }
+
+        sb.append(">");
+        return sb.toString();
     }
 
 
