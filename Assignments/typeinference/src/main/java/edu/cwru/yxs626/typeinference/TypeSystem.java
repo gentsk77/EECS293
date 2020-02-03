@@ -8,8 +8,9 @@ public final class TypeSystem {
 
     public final TypeEntry add(TypeEntry typeEntry) {
         // check whether the typeEntry is already in the groups
+        // if the typeEntry is not in the groups yet
         if (!groups.containsKey(typeEntry)) {
-            TypeGroup typeGroup = TypeGroup.of(typeEntry);
+            TypeGroup typeGroup = TypeGroup.of(typeEntry, this);
             groups.put(typeEntry, typeGroup);
         }
         // else has no effect
