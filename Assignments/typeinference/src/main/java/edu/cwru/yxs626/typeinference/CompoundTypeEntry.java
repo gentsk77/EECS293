@@ -35,7 +35,7 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
      * @return the CompoundType corresponding to the CompoundTypeEntry
      */
     public CompoundType getType() {
-        return this.type;
+        return type;
     }
 
     /**
@@ -44,7 +44,7 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
      * @return the list of sub types corresponding to the CompoundTypeEntry
      */
     public List<TypeEntry> getSubTypes() {
-        return cloneSubTypes(this.subTypes);
+        return cloneSubTypes(subTypes);
     }
 
     /**
@@ -99,9 +99,9 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getType().toString() + "<");
+        sb.append(getType().toString() + "<");
 
-        Iterator<TypeEntry> subTypeIterator = subTypes.iterator();
+        Iterator<TypeEntry> subTypeIterator = getSubTypes().iterator();
 
         APPEND_SUBTYPES: 
         while (subTypeIterator.hasNext()) {

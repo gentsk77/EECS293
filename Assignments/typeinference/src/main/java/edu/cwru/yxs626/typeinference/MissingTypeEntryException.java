@@ -34,7 +34,7 @@ public final class MissingTypeEntryException extends Exception {
      * @return the TypeEntry related to the MissingTypeEntryException
      */
     public TypeEntry getTypeEntry() {
-        return this.typeEntry;
+        return typeEntry;
     }
 
     /**
@@ -43,6 +43,6 @@ public final class MissingTypeEntryException extends Exception {
      * @return the TypeSystem related to the MissingTypeEntryException
      */
     public TypeSystem getTypeSystem() {
-        return this.typeSystem;
+        return typeSystem;
     }
 }

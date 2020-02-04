@@ -45,7 +45,7 @@ public final class BasicType extends SimpleTypeEntry {
      * @return the TypeName of the BasicType
      */
     public TypeName getTypeName() {
-        return this.typeName;
+        return typeName;
     }
 
     /**
@@ -54,7 +54,7 @@ public final class BasicType extends SimpleTypeEntry {
      * @return the identifier of the TypeName of the BasicType
      */
     public String getIdentifier() {
-        return this.typeName.getIdentifier();
+        return getTypeName().getIdentifier();
     }
 
     /**
@@ -64,7 +64,7 @@ public final class BasicType extends SimpleTypeEntry {
      */
     @Override
     public String toString() {
-        return this.typeName.toString();
+        return getTypeName().toString();
     }
 
 }

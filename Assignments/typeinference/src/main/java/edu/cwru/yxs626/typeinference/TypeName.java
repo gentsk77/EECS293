@@ -66,7 +66,7 @@ public final class TypeName {
      */
     @Override
     public String toString() {
-        return this.getIdentifier();
+        return getIdentifier();
     }
 
     /**

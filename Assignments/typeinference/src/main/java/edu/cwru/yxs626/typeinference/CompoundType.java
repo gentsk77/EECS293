@@ -40,7 +40,7 @@ public final class CompoundType implements Type {
      * @return the arity of the CompoundType
      */
     public int getArity() {
-        return this.arity;
+        return arity;
     }
 
     /**
