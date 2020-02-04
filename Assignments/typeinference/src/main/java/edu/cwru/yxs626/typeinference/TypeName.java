@@ -2,6 +2,7 @@ package edu.cwru.yxs626.typeinference;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * TypeName represents the name of a type, such as the strings "Integer",
@@ -36,10 +37,11 @@ public final class TypeName {
      * @return a new TypeName
      */
     public static final TypeName of(String identifier) {
-        // validates the input, throws exceptions if the input fails the sanity test
-        sanityCheck(identifier);
+        // validates the input, throws exceptions if the input fails the identifier test
+        checkIdentifier(identifier);
 
-        // the rest of the code would not be reached if the input fails the sanity test
+        // the rest of the code would not be reached if the input fails the identifier
+        // test
 
         TypeName typeName = new TypeName(identifier);
         // maps the identifier with the created type name
@@ -64,7 +66,7 @@ public final class TypeName {
      */
     @Override
     public String toString() {
-        return this.getIdentifier();
+        return getIdentifier();
     }
 
     /**
@@ -72,15 +74,13 @@ public final class TypeName {
      * 
      * @param identifier the identifier to be validated
      */
-    private static void sanityCheck(String identifier) {
-        if (identifier == null) {
-            throw new NullPointerException("The input identifier is null");
-        }
+    private static void checkIdentifier(String identifier) {
+        Objects.requireNonNull(identifier, "Identifier should not be null");
+
         // if there is already a TypeName declared from the input identifier
-        else if (definedTypeNames.containsKey(identifier)) {
+        if (definedTypeNames.containsKey(identifier)) {
             throw new IllegalStateException("Another TypeName with the same identifier has already been defined.");
-        } else {
-            // the input identifier pass the test, nothing to be done
         }
+        // else the input identifier pass the test, nothing to be done
     }
 }

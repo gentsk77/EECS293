@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class TypeNameTest {
     @Test
     public void testGetIdentifier() {
-        assertEquals("Identifier doesn't match.", "A", TypeName.of("A").getIdentifier());
+        assertEquals("Identifier doesn't match.", "X", TypeName.of("X").getIdentifier());
     }
 
     @Test

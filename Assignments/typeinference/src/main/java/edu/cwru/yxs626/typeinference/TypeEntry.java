@@ -1,5 +1,7 @@
 package edu.cwru.yxs626.typeinference;
 
+import java.util.List;
+
 /**
  * TypeEntry abstracts the concept of a type within an expression. A difference
  * between a Type and TypeEntry is for example that List is a Type but List<T>
@@ -25,4 +27,11 @@ public interface TypeEntry {
      *         elsewise
      */
     public boolean isVariable();
+
+    /**
+     * Return the list of sub types of the TypeEntry.
+     * 
+     * @return the list of sub types of the TypeEntry
+     */
+    public List<TypeEntry> getSubTypes();
 }
