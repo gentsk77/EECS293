@@ -23,6 +23,12 @@ public abstract class SimpleTypeEntry extends AbstractTypeEntry implements Type 
         return this;
     }
 
+    /**
+     * Rreturns the list of sub types. For a SimpleType, a empty list would be
+     * returned.
+     * 
+     * @return an empty list
+     */
     @Override
     public List<TypeEntry> getSubTypes() {
         return new ArrayList<>();

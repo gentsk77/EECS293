@@ -47,7 +47,7 @@ public class CompoundTypeEntryTest {
             fail("NullPointerException not caught.");
         } catch (NullPointerException exception) {
             assertTrue(true);
-        } catch (ArityException exception) {
+        } catch (Exception exception) {
             fail("Wrong type of exception.");
         }
 
@@ -57,7 +57,7 @@ public class CompoundTypeEntryTest {
             fail("NullPointerException not caught.");
         } catch (NullPointerException exception) {
             assertTrue(true);
-        } catch (ArityException exception) {
+        } catch (Exception exception) {
             fail("Wrong type of exception.");
         }
 
@@ -74,11 +74,32 @@ public class CompoundTypeEntryTest {
 
         // test invalid arity
         try {
-            CompoundTypeEntry.of(validCompoundType, new ArrayList<>(
-                Arrays.asList(BasicType.of("Char"), BasicType.of("Long"), BasicType.of("Double"))));
+            CompoundTypeEntry.of(validCompoundType,
+                    new ArrayList<>(Arrays.asList(BasicType.of("Char"), BasicType.of("Long"), BasicType.of("Double"))));
             fail("NullPointerException not caught.");
         } catch (ArityException exception) {
             assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testToString() {
+        // test 1
+        CompoundType compoundType = CompoundType.of("CompoundType", 1);
+        List<TypeEntry> subTypeList = new ArrayList<>(Arrays.asList(BasicType.of("A")));
+        try {
+            CompoundTypeEntry compoundTypeEntry = CompoundTypeEntry.of(compoundType, subTypeList);
+            assertEquals("CompoundType<A>", compoundTypeEntry.toString());
+        } catch (Exception e) {
+            fail("Exception by error.");
+        }
+
+        // test many
+        try {
+            CompoundTypeEntry compoundTypeEntry = CompoundTypeEntry.of(validCompoundType, validSubTypes);
+            assertEquals("HashMap<String, Integer>", compoundTypeEntry.toString());
+        } catch (Exception e) {
+            fail("Exception by error.");
         }
     }
 }

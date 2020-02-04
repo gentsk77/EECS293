@@ -28,5 +28,10 @@ public interface TypeEntry {
      */
     public boolean isVariable();
 
+    /**
+     * Return the list of sub types of the TypeEntry.
+     * 
+     * @return the list of sub types of the TypeEntry
+     */
     public List<TypeEntry> getSubTypes();
 }

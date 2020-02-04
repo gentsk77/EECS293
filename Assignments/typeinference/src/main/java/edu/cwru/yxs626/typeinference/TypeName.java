@@ -2,6 +2,7 @@ package edu.cwru.yxs626.typeinference;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * TypeName represents the name of a type, such as the strings "Integer",
@@ -74,11 +75,10 @@ public final class TypeName {
      * @param identifier the identifier to be validated
      */
     private static void checkIdentifier(String identifier) {
-        if (identifier == null) {
-            throw new NullPointerException("The input identifier is null");
-        }
+        Objects.requireNonNull(identifier, "Identifier should not be null");
+
         // if there is already a TypeName declared from the input identifier
-        else if (definedTypeNames.containsKey(identifier)) {
+        if (definedTypeNames.containsKey(identifier)) {
             throw new IllegalStateException("Another TypeName with the same identifier has already been defined.");
         }
         // else the input identifier pass the test, nothing to be done
