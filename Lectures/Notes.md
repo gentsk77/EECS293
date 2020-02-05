@@ -37,6 +37,14 @@
     - [Recitation](#recitation)
       - [Review](#review)
       - [Code Demo](#code-demo)
+    - [Design](#design)
+      - [Accidental Difficulties](#accidental-difficulties)
+      - [Essential Difficulties](#essential-difficulties)
+    - [Objective of Software Design: Manage Complexity](#objective-of-software-design-manage-complexity)
+      - [Abstractions](#abstractions)
+      - [Encapsulation](#encapsulation)
+      - [Information Hiding](#information-hiding)
+    - [Coupling](#coupling)
 
 ### Iterative vs Sequential development 
 
@@ -451,3 +459,47 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
 - in java, clone only provides a shallow copy
 - avoid overhead clone in the code, save copy if appropriate
 - try to use stream to reduce complexity
+
+### Design
+
+- wicked problem
+- non-deterministic
+  - could exist various solutions
+- iterative process
+- restrictions
+  - trade off of your design
+
+#### Accidental Difficulties
+
+- brand new library used
+
+#### Essential Difficulties
+
+- inherient to the process of designing software
+- complexity
+
+### Objective of Software Design: Manage Complexity
+
+#### Abstractions
+
+- form convincing abstractions to manage complexity
+- Use `interface` instead of `implementation`
+  - the implementation could break the abstraction of the object
+
+#### Encapsulation
+
+- encapsulate the details of the software
+
+#### Information Hiding
+
+- for example, the identifier could reveal the sequence of admission?
+  - create a class Identifier and create methods as needed
+- how to use the abstraction to properly ensure encapsulation
+
+### Coupling
+
+- loose vs tight
+  - USB is a loose coupling
+  - soldering is a tight coupling
+  - should provide standard interface, refer to the interface as form of interaction (plugin/out)
+  - tight coupling: **semantic coupling**
