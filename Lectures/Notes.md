@@ -33,6 +33,10 @@
       - [Complexity Measurement by McCabe](#complexity-measurement-by-mccabe)
       - [Assignment Complexity Requirement](#assignment-complexity-requirement)
       - [Fix Complexity](#fix-complexity)
+  - [Week Four](#week-four)
+    - [Recitation](#recitation)
+      - [Review](#review)
+      - [Code Demo](#code-demo)
 
 ### Iterative vs Sequential development 
 
@@ -416,3 +420,34 @@ do {
 - break into routines
 - OO approach (object factories)
 - apply table-driven methods (hashtable, etc.)
+
+## Week Four
+
+### Recitation
+
+#### Review
+
+- enter the loop from one location only
+  - don't enter in the middle (eg: counter from 4/10)
+- put initialization code directly before the loop
+  - put variables as close to their use as possible
+- don't use for loop when while loop is better
+- use while(true) for infinite loops
+- consider using break statements rather than boolean flags in a while loop (labeled if available)
+- prefer for each loops to traditional for loops
+- optimize judiciously
+
+#### Code Demo
+
+- use assert in the code for testing to notify error cases that should never happen
+  - after testing, comment out the assertion
+- for the `CompoundTypeEntry::toString` method, use stream as below instead:
+
+``` Java
+
+type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).collect(Collectors.joining(",", "<", ">"))
+```
+
+- in java, clone only provides a shallow copy
+- avoid overhead clone in the code, save copy if appropriate
+- try to use stream to reduce complexity

@@ -44,6 +44,7 @@ public final class ArityException extends Exception {
      * @return the list of sub types of the ArityException
      */
     public List<TypeEntry> getSubTypes() {
+        // TODO: return unmodifiable list for security
         return this.subTypes;
     }
 }
