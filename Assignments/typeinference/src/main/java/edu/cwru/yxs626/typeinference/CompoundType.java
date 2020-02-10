@@ -51,8 +51,10 @@ public final class CompoundType implements Type {
      * @return a new CompoundType
      */
     public static final CompoundType of(String identifier, int arity) {
+        // moved the location of checkArity
+        checkArity(arity);
+
         try {
-            checkArity(arity);
             TypeName typeName = TypeName.of(identifier);
 
             return new CompoundType(typeName, arity);

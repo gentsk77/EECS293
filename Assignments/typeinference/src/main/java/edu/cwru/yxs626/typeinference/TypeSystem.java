@@ -1,6 +1,7 @@
 package edu.cwru.yxs626.typeinference;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -31,13 +32,9 @@ public final class TypeSystem {
     public final TypeEntry add(TypeEntry typeEntry) {
         Objects.requireNonNull(typeEntry, "Input type entry should not be null");
 
-        // check whether the typeEntry is already in the groups
-        // if the typeEntry is not in the groups yet
-        if (!groups.containsKey(typeEntry)) {
-            TypeGroup typeGroup = TypeGroup.of(typeEntry, this);
-            groups.put(typeEntry, typeGroup);
-        }
-        // else has no effect
+        TypeGroup typeGroup = TypeGroup.of(typeEntry, this);
+        // changed to putIfAbsent
+        groups.putIfAbsent(typeEntry, typeGroup);
 
         return typeEntry;
     }
@@ -61,5 +58,54 @@ public final class TypeSystem {
         // else the groups contains the key, pass the test
 
         return groups.get(s).getRepresentative();
+    }
+
+    final void setTypeGroup(TypeEntry typeEntry, TypeGroup typeGroup) {
+        // TODO: check if exist?
+        groups.put(typeEntry, typeGroup);
+    }
+
+    // TODO: clean up logic structure
+    public final boolean unify(TypeEntry s, TypeEntry t) {
+        Objects.requireNonNull(s, "Input type entry should not be null");
+        Objects.requireNonNull(t, "Input type entry should not be null");
+
+        TypeEntry representativeS = representative(s);
+        TypeEntry representativeT = representative(t);
+
+        if (representativeS.equals(representativeT)) {
+            return true;
+        }
+
+        else if (representativeS.hasEqualUnderlyingType(representativeT)) {
+            TypeGroup groupS = groups.get(representativeS);
+            TypeGroup groupT = groups.get(representativeT);
+
+            groupS.append(groupT);
+
+            Iterator<TypeEntry> iteratorS = representativeS.getSubTypes().iterator();
+            Iterator<TypeEntry> iteratorT = representativeT.getSubTypes().iterator();
+
+            while (iteratorS.hasNext()) {
+                if (!unify(iteratorS.next(), iteratorT.next())) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        else if (representativeS.isVariable() || representativeT.isVariable()) {
+            TypeGroup groupS = groups.get(representativeS);
+            TypeGroup groupT = groups.get(representativeT);
+
+            groupS.append(groupT);
+
+            return true;
+        }
+
+        else {
+            return false;
+        }
     }
 }

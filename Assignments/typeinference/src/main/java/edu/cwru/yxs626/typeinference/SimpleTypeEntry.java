@@ -33,4 +33,9 @@ public abstract class SimpleTypeEntry extends AbstractTypeEntry implements Type 
     public List<TypeEntry> getSubTypes() {
         return new ArrayList<>();
     }
+
+    @Override
+    public boolean hasEqualUnderlyingType(TypeEntry other) {
+        return false;
+    }
 }

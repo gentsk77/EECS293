@@ -57,21 +57,6 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
      * @throws ArityException if the number of sub types does not match the arity
      */
     public static final CompoundTypeEntry of(CompoundType type, List<TypeEntry> subTypes) throws ArityException {
-        checkSubTypes(type, subTypes);
-
-        return new CompoundTypeEntry(type, cloneSubTypes(subTypes));
-    }
-
-    /**
-     * Check whether the size of the list of sub types match the gtiven arity of the
-     * CompoundType.
-     * 
-     * @param type     the CompoundType which arity will be checked
-     * @param subTypes the list of sub types to be checked
-     * @throws ArityException if the number of sub types does not match the arity of
-     *                        the CompoundType
-     */
-    private static void checkSubTypes(CompoundType type, List<TypeEntry> subTypes) throws ArityException {
         Objects.requireNonNull(type, "Input type should not be null");
         Objects.requireNonNull(subTypes, "Input sub type list should not be null.");
 
@@ -79,6 +64,9 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
             throw new ArityException(type, subTypes);
         }
         // else pass the subType and arity test
+
+
+        return new CompoundTypeEntry(type, cloneSubTypes(subTypes));
     }
 
     /**
@@ -119,4 +107,8 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
         return sb.toString();
     }
 
+    @Override
+    public boolean hasEqualUnderlyingType(TypeEntry other) {
+        return this.getType().equals(other.getType());
+    }
 }
