@@ -65,7 +65,6 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
         }
         // else pass the subType and arity test
 
-
         return new CompoundTypeEntry(type, cloneSubTypes(subTypes));
     }
 
@@ -75,7 +74,7 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
      * @param subTypes the list of sub types to be cloned
      * @return a clone of the given list of sub types
      */
-    private static List<TypeEntry> cloneSubTypes(List<TypeEntry> subTypes) {
+    private static final List<TypeEntry> cloneSubTypes(List<TypeEntry> subTypes) {
         return subTypes.stream().collect(Collectors.toList());
     }
 
@@ -109,6 +108,8 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
 
     @Override
     public boolean hasEqualUnderlyingType(TypeEntry other) {
+        Objects.requireNonNull(other, "Input TypeEntry should not be null");
+
         return this.getType().equals(other.getType());
     }
 }

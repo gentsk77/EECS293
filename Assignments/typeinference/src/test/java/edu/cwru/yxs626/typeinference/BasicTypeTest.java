@@ -63,4 +63,27 @@ public class BasicTypeTest {
             assertTrue(true);
         }
     }
+
+    @Test
+    public void testHasEqualUnderlyingType() {
+        BasicType basicType1 = BasicType.of("ValidTestingType1");
+
+        // test null
+        try {
+            basicType1.hasEqualUnderlyingType(null);
+            fail("NullPointerException not thrown.");
+        } catch (NullPointerException exception) {
+            assertTrue(true);
+        } catch (Exception exception) {
+            fail("Wrong exception.");
+        }
+
+        // test valid
+        try {
+            BasicType basicType2 = BasicType.of("ValidTestingType2");
+            assertFalse("Simple type entries should not be equal.", basicType1.hasEqualUnderlyingType(basicType2));
+        } catch (Exception exception) {
+            fail("Should not throw exceptions.");
+        }
+    }
 }

@@ -16,7 +16,7 @@ public class CompoundTypeEntryTest {
     private static final CompoundType validCompoundType = CompoundType.of("HashMap", 2);
 
     private static final List<TypeEntry> validSubTypes = new ArrayList<>(
-            Arrays.asList(BasicType.of("String"), BasicType.of("Integer")));
+            Arrays.asList(BasicType.of("String"), BasicType.of("Type")));
 
     @Test
     public void testGetType() {
@@ -97,9 +97,29 @@ public class CompoundTypeEntryTest {
         // test many
         try {
             CompoundTypeEntry compoundTypeEntry = CompoundTypeEntry.of(validCompoundType, validSubTypes);
-            assertEquals("HashMap<String, Integer>", compoundTypeEntry.toString());
+            assertEquals("HashMap<String, Type>", compoundTypeEntry.toString());
         } catch (Exception e) {
             fail("Exception by error.");
+        }
+    }
+
+    @Test
+    public void testHasEqualUnderlyingType() {
+        BasicType basicType1 = BasicType.of("BasicType1");
+        BasicType basicType2 = BasicType.of("BasicType2");
+
+        CompoundType compoundType1 = CompoundType.of("CompoundType1", 1);
+        CompoundType compoundType2 = CompoundType.of("CompoundType2", 1);
+
+        try {
+            CompoundTypeEntry compoundTypeEntry1 = CompoundTypeEntry.of(compoundType1, Arrays.asList(basicType1));
+            CompoundTypeEntry compoundTypeEntry2 = CompoundTypeEntry.of(compoundType1, Arrays.asList(basicType2));
+            CompoundTypeEntry compoundTypeEntry3 = CompoundTypeEntry.of(compoundType2, Arrays.asList(basicType2));
+
+            assertTrue("Test equal types failed.", compoundTypeEntry1.hasEqualUnderlyingType(compoundTypeEntry2));
+            assertFalse("Test unequal types failed.", compoundTypeEntry1.hasEqualUnderlyingType(compoundTypeEntry3));
+        } catch (Exception exception) {
+            fail("Wrong exception.");
         }
     }
 }

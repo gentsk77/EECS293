@@ -69,21 +69,23 @@ final class TypeGroup implements Iterable<TypeEntry> {
         return new TypeGroup(typeGroup, typeEntry, typeSystem);
     }
 
+    /**
+     * Appends all the types in the other TypeGroup to this TypeGroup and
+     * correspondingly updates the group assignment in the TypeSystem.
+     * 
+     * @param other the TypeGroup to be appended
+     */
     final void append(TypeGroup other) {
         for (TypeEntry typeEntry : other) {
             typeGroup.add(typeEntry);
             typeSystem.setTypeGroup(typeEntry, this);
         }
 
-        updateRepresentative(other);
-    }
-
-    private final void updateRepresentative(TypeGroup other) {
-        if (!other.getRepresentative().isVariable()) {
+        // we only care to change the representative when the original one is a variable
+        if (this.getRepresentative().isVariable()) {
             this.representative = other.getRepresentative();
-        } 
-        // else no matter the representative of `this` is a variable or not,
-        // we keep it as the reprensentative
+        }
+        // other wise there's no need to change the representative
     }
 
     /**
