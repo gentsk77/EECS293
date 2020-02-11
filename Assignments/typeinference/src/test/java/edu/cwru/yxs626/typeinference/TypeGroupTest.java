@@ -84,4 +84,33 @@ public class TypeGroupTest {
             fail("Exception caught.");
         }
     }
+
+    @Test
+    public void testAppend() {
+        BasicType validType = BasicType.of("TestType");
+        VariableType variableType1 = new VariableType();
+        VariableType variableType2 = new VariableType();
+
+        TypeSystem ts = new TypeSystem();
+
+        ts.add(validType);
+        ts.add(variableType1);
+        ts.add(variableType2);
+
+        TypeGroup tg1 = ts.getTypeGroup(validType);
+        TypeGroup tg2 = ts.getTypeGroup(variableType1);
+        TypeGroup tg3 = ts.getTypeGroup(variableType2);
+
+        tg2.append(tg3);
+        assertEquals("Should merge types groups", ts.getTypeGroup(variableType1), ts.getTypeGroup(variableType2));
+
+        tg1.append(tg2);
+        assertEquals("Should merge types groups", ts.getTypeGroup(validType), ts.getTypeGroup(variableType1));
+        assertEquals("Should merge types groups", ts.getTypeGroup(validType), ts.getTypeGroup(variableType2));
+
+        assertEquals("Should change group representative to non-variable type", validType,
+                ts.representative(variableType1));
+        assertEquals("Should change group representative to non-variable type", validType,
+                ts.representative(variableType2));
+    }
 }

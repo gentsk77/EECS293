@@ -2,6 +2,7 @@ package edu.cwru.yxs626.typeinference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * SimpleTypeEntry provides a default implementation of some of the TypeEntry
@@ -32,5 +33,12 @@ public abstract class SimpleTypeEntry extends AbstractTypeEntry implements Type 
     @Override
     public List<TypeEntry> getSubTypes() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public boolean hasEqualUnderlyingType(TypeEntry other) {
+        Objects.requireNonNull(other, "Input TypeEntry should not be null");
+
+        return false;
     }
 }
