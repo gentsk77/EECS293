@@ -1,4 +1,5 @@
 package edu.cwru.yxs626.typeinference;
+import java.util.Objects;
 
 /**
  * A Compound Type is a type used in conjunction with other types, such as List
@@ -51,6 +52,8 @@ public final class CompoundType implements Type {
      * @return a new CompoundType
      */
     public static final CompoundType of(String identifier, int arity) {
+        Objects.requireNonNull(identifier, "Identifier should not be null");
+
         // moved the location of checkArity
         checkArity(arity);
 

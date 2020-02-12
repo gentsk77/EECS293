@@ -1,4 +1,5 @@
 package edu.cwru.yxs626.typeinference;
+import java.util.Objects;
 
 /**
  * BasicType is a simple type, such as Integer, Boolean, or Double.
@@ -26,6 +27,8 @@ public final class BasicType extends SimpleTypeEntry {
      * @return a BasicType
      */
     public static final BasicType of(String identifier) {
+        Objects.requireNonNull(identifier, "Identifier should not be null");
+
         try {
             // first creates a TypeName with the given identifier, possible exceptions will
             // be propagated from TypeName::of
