@@ -51,8 +51,10 @@ public final class CompoundType implements Type {
      * @return a new CompoundType
      */
     public static final CompoundType of(String identifier, int arity) {
+        // moved the location of checkArity
+        checkArity(arity);
+
         try {
-            checkArity(arity);
             TypeName typeName = TypeName.of(identifier);
 
             return new CompoundType(typeName, arity);
@@ -65,7 +67,7 @@ public final class CompoundType implements Type {
     }
 
     /** Check the arity of the CompoundType to see whether it's valid. */
-    private static void checkArity(int arity) {
+    private static final void checkArity(int arity) {
         if (arity < 1) {
             throw new IllegalArgumentException("The input arity should be a positive integer.");
         }

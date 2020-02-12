@@ -34,4 +34,6 @@ public interface TypeEntry {
      * @return the list of sub types of the TypeEntry
      */
     public List<TypeEntry> getSubTypes();
+
+    public boolean hasEqualUnderlyingType(TypeEntry other);
 }

@@ -1,6 +1,7 @@
 package edu.cwru.yxs626.typeinference;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -31,13 +32,9 @@ public final class TypeSystem {
     public final TypeEntry add(TypeEntry typeEntry) {
         Objects.requireNonNull(typeEntry, "Input type entry should not be null");
 
-        // check whether the typeEntry is already in the groups
-        // if the typeEntry is not in the groups yet
-        if (!groups.containsKey(typeEntry)) {
-            TypeGroup typeGroup = TypeGroup.of(typeEntry, this);
-            groups.put(typeEntry, typeGroup);
-        }
-        // else has no effect
+        TypeGroup typeGroup = TypeGroup.of(typeEntry, this);
+        // changed to putIfAbsent
+        groups.putIfAbsent(typeEntry, typeGroup);
 
         return typeEntry;
     }
@@ -61,5 +58,89 @@ public final class TypeSystem {
         // else the groups contains the key, pass the test
 
         return groups.get(s).getRepresentative();
+    }
+
+    // package-private helper method for testing
+    TypeGroup getTypeGroup(TypeEntry typeEntry) {
+        return groups.getOrDefault(typeEntry, null);
+    }
+
+    /**
+     * Update the TypeGroup associated with the given TypeEntry.
+     * 
+     * @param typeEntry the TypeEntry to be updated
+     * @param typeGroup the new TypeGroup of the TypeEntry
+     */
+    final void setTypeGroup(TypeEntry typeEntry, TypeGroup typeGroup) {
+        groups.put(typeEntry, typeGroup);
+    }
+
+    /**
+     * Perform the unification algorithm on two given TypeEntries and verify whether
+     * they could unify.
+     * 
+     * @param s the TypeEntry to be unified
+     * @param t the TypeEntry to be unified
+     * @return whether two TypeEntries unify
+     */
+    public final boolean unify(TypeEntry s, TypeEntry t) {
+        Objects.requireNonNull(s, "Input type entry should not be null");
+        Objects.requireNonNull(t, "Input type entry should not be null");
+
+        TypeEntry representativeS = representative(s);
+        TypeEntry representativeT = representative(t);
+
+        if (representativeS.equals(representativeT)) {
+            return true;
+        }
+        // if both TypeEntry are CompoundTypeEntry that share the same type
+        else if (representativeS.hasEqualUnderlyingType(representativeT)) {
+            // the appending of the type groups were moved into
+            // TypeSystem::unifySubTypesOfTypeEntry
+            return unifySubTypesOfTypeEntry(representativeS, representativeT);
+        }
+        // if either type is variable
+        else if (representativeS.isVariable() || representativeT.isVariable()) {
+            appendGroupsOfTypeEntry(representativeS, representativeT);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Unify the lists of subTypes of the given TypeEntries.
+     * 
+     * @param s the TypeEntry to be unified
+     * @param t the TypeEntry to be unified
+     * @return whether the list of subTypes of the two TypeEntries unify
+     */
+    private final boolean unifySubTypesOfTypeEntry(TypeEntry s, TypeEntry t) {
+        Iterator<TypeEntry> iteratorS = s.getSubTypes().iterator();
+        Iterator<TypeEntry> iteratorT = t.getSubTypes().iterator();
+
+        while (iteratorS.hasNext()) {
+            if (!unify(iteratorS.next(), iteratorT.next())) {
+                return false;
+            }
+            // will not return anything if unify
+        }
+
+        // union the two type groups once we make sure they unify
+        appendGroupsOfTypeEntry(s, t);
+
+        return true;
+    }
+
+    /**
+     * Append the TypeGroup of the given TypeEntries.
+     * 
+     * @param s the TypeEntry to be appended to
+     * @param t the TypeEntry to be appended
+     */
+    private final void appendGroupsOfTypeEntry(TypeEntry s, TypeEntry t) {
+        TypeGroup groupS = groups.get(s);
+        TypeGroup groupT = groups.get(t);
+        groupS.append(groupT);
     }
 }

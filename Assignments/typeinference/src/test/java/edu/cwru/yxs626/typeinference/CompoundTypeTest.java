@@ -8,7 +8,7 @@ public class CompoundTypeTest {
 
     @Test
     public void testGetIdentifier() {
-        assertEquals("Identifier doesn't match.", "List", CompoundType.of("List", 1).getIdentifier());
+        assertEquals("Identifier doesn't match.", "ListDumb", CompoundType.of("ListDumb", 1).getIdentifier());
     }
 
     @Test
