@@ -49,6 +49,10 @@
     - [Recitation](#recitation-2)
     - [Routines (methods)](#routines-methods)
     - [Cohesiveness](#cohesiveness)
+    - [Routine Names](#routine-names)
+      - [Prelim](#prelim)
+      - [Rules](#rules)
+      - [Routine Parameters](#routine-parameters)
 
 ### Iterative vs Sequential development 
 
@@ -609,3 +613,41 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
       }
     }
   ```
+
+### Routine Names
+
+- primary reason to create routine is to control complexity by creating meaningful **abstraction**
+- reader of your code unaware of your meaningful abstraction without a clear and intuitive name
+
+#### Prelim
+
+1. name everything at a high level
+   - `printReportAndEraseFile` is a good name for a bad routine cuz it reveal its not cohesive natur
+2. avoid meaningless verbs or numbers
+   - `processInput`, `handleOutput`
+   - `foo`, `bar`
+   - `print1`, `print2`, `print3`
+
+#### Rules
+
+- a routine is either a function or a procedure
+- function
+  - primary purpose is to **return a value**
+  - eg: `Math.sin(x)`
+  - *should be named by the value it returns*
+  - special cases:
+    - getter methods: `get[variablename]`
+    - boolean value: phrased as question
+    - conversions: `[a]2[b]`
+- procedure
+  - primary purpose is to p**erform an operation**
+  - eg: `eraseFile()`
+  - should be named as `[verb][object]`
+
+#### Routine Parameters
+
+1. number of arguments <= 7
+   - eg: if too many parameters in the routine, the parameters can actually relate to each other
+   - `foo(x1, x2, x3, ..., x100)`, first three related to RouteNode, the rest to Airport
+   - create meaningful abstractions(classes) for the class above, change the code to `foo(RouteName, Airport)`
+2.  consistency with the order of arguments
