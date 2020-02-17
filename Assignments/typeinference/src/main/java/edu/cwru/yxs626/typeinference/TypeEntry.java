@@ -36,4 +36,6 @@ public interface TypeEntry {
     public List<TypeEntry> getSubTypes();
 
     public boolean hasEqualUnderlyingType(TypeEntry other);
+
+    String representativeString(TypeSystem typeSystem);
 }

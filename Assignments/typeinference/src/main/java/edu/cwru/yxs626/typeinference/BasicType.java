@@ -66,5 +66,4 @@ public final class BasicType extends SimpleTypeEntry {
     public String toString() {
         return getTypeName().toString();
     }
-
 }

@@ -141,6 +141,11 @@ public final class TypeSystem {
     private final void appendGroupsOfTypeEntry(TypeEntry s, TypeEntry t) {
         TypeGroup groupS = groups.get(s);
         TypeGroup groupT = groups.get(t);
-        groupS.append(groupT);
+
+        if (groupS.size() > groupT.size()) {
+            groupS.append(groupT);
+        } else {
+            groupT.append(groupS);
+        }
     }
 }

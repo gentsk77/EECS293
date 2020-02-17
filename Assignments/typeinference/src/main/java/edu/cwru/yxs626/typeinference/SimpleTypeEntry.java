@@ -41,4 +41,12 @@ public abstract class SimpleTypeEntry extends AbstractTypeEntry implements Type 
 
         return false;
     }
+
+    @Override
+    protected String basicRepresentativeString(TypeSystem typeSystem) {
+        Objects.requireNonNull(typeSystem, "Input TypeSystem should not be null");
+
+        return typeSystem.representative(this).toString();
+    }
+
 }

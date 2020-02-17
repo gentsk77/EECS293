@@ -1,5 +1,6 @@
 package edu.cwru.yxs626.typeinference;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -111,5 +112,27 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
         Objects.requireNonNull(other, "Input TypeEntry should not be null");
 
         return this.getType().equals(other.getType());
+    }
+
+    @Override
+    protected String basicRepresentativeString(TypeSystem typeSystem) {
+        Objects.requireNonNull(typeSystem, "Input TypeSystem should not be null");
+
+        List<TypeEntry> subTypeRepresentatives = new ArrayList<>();
+
+        for (TypeEntry subType : getSubTypes()) {
+            subTypeRepresentatives.add(typeSystem.representative(subType));
+        }
+
+        TypeEntry compoundTypeEntryRepresentative = this;
+
+        try {
+            compoundTypeEntryRepresentative = CompoundTypeEntry.of(getType(), subTypeRepresentatives);
+        } catch (ArityException e) {
+            // the error really shouldn't happen here
+            // since the arity should be exactly the same
+        }
+
+        return compoundTypeEntryRepresentative.toString();
     }
 }
