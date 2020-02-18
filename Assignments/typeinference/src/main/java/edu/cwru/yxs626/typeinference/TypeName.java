@@ -37,11 +37,12 @@ public final class TypeName {
      * @return a new TypeName
      */
     public static final TypeName of(String identifier) {
-        // validates the input, throws exceptions if the input fails the identifier test
-        checkIdentifier(identifier);
+        Objects.requireNonNull(identifier, "Identifier should not be null");
 
-        // the rest of the code would not be reached if the input fails the identifier
-        // test
+        if (definedTypeNames.containsKey(identifier)) {
+            throw new IllegalStateException("Another TypeName with the same identifier has already been defined.");
+        }
+        // else the input identifier pass the test, nothing to be done
 
         TypeName typeName = new TypeName(identifier);
         // maps the identifier with the created type name
@@ -67,20 +68,5 @@ public final class TypeName {
     @Override
     public String toString() {
         return getIdentifier();
-    }
-
-    /**
-     * Performs sanity check on the given identifier input.
-     * 
-     * @param identifier the identifier to be validated
-     */
-    private static void checkIdentifier(String identifier) {
-        Objects.requireNonNull(identifier, "Identifier should not be null");
-
-        // if there is already a TypeName declared from the input identifier
-        if (definedTypeNames.containsKey(identifier)) {
-            throw new IllegalStateException("Another TypeName with the same identifier has already been defined.");
-        }
-        // else the input identifier pass the test, nothing to be done
     }
 }
