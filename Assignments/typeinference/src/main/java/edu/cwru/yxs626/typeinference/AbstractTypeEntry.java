@@ -10,6 +10,13 @@ import java.util.Objects;
  */
 public abstract class AbstractTypeEntry implements TypeEntry {
 
+    /**
+     * Return a string representation of the representative of its corresponding
+     * TypeGroup in the given TypeSystem.
+     * 
+     * @param typeSystem the TypeSystem containing this TypeEntry
+     * @return a string representation of the representative of this TypeEntry
+     */
     abstract protected String basicRepresentativeString(TypeSystem typeSystem);
 
     /**
@@ -24,10 +31,18 @@ public abstract class AbstractTypeEntry implements TypeEntry {
         return false;
     }
 
+    /**
+     * Return the representative's basic representative string.
+     * 
+     * @param typeSystem the TypeSystem of the TypeEntry
+     * @return the representative's basic representative string.
+     */
     @Override
     public String representativeString(TypeSystem typeSystem) {
         Objects.requireNonNull(typeSystem, "Input TypeSystem should not be null");
 
-        return typeSystem.representative(this).representativeString(typeSystem);
+        AbstractTypeEntry representative = (AbstractTypeEntry) typeSystem.representative(this);
+
+        return representative.basicRepresentativeString(typeSystem);
     }
 }

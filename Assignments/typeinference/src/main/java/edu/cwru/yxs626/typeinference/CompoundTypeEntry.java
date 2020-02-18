@@ -91,8 +91,7 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
 
         Iterator<TypeEntry> subTypeIterator = getSubTypes().iterator();
 
-        APPEND_SUBTYPES: 
-        while (subTypeIterator.hasNext()) {
+        APPEND_SUBTYPES: while (subTypeIterator.hasNext()) {
             sb.append(subTypeIterator.next().toString());
 
             if (!subTypeIterator.hasNext()) {
@@ -107,6 +106,12 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
         return sb.toString();
     }
 
+    /**
+     * Determines if this TypeEntry has the equal underlying type as the given
+     * TypeEntry.
+     * 
+     * @return true if the CompoundTypes of the two CompoundTypeEntries are the same
+     */
     @Override
     public boolean hasEqualUnderlyingType(TypeEntry other) {
         Objects.requireNonNull(other, "Input TypeEntry should not be null");
@@ -114,6 +119,13 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
         return this.getType().equals(other.getType());
     }
 
+    /**
+     * Return a string representation of the representative of its corresponding
+     * TypeGroup in the given TypeSystem.
+     * 
+     * @param typeSystem the TypeSystem containing this TypeEntry
+     * @return a string representation of the representative of this TypeEntry
+     */
     @Override
     protected String basicRepresentativeString(TypeSystem typeSystem) {
         Objects.requireNonNull(typeSystem, "Input TypeSystem should not be null");
@@ -124,6 +136,7 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
             subTypeRepresentatives.add(typeSystem.representative(subType));
         }
 
+        // init to be this to avoid initialization exceptions
         TypeEntry compoundTypeEntryRepresentative = this;
 
         try {

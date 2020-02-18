@@ -86,4 +86,23 @@ public class BasicTypeTest {
             fail("Should not throw exceptions.");
         }
     }
+
+    @Test
+    public void testRepresentativeString() {
+        TypeEntry testType = BasicType.of("BasicTestType");
+
+        // test null
+        try {
+            testType.representativeString(null);
+            fail("NullPointerException not caught.");
+        } catch (NullPointerException e) {
+            assertTrue(true);
+        }
+
+        // test valid
+        TypeSystem ts = new TypeSystem();
+        ts.add(testType);
+
+        assertEquals("String representation not matched.", "BasicTestType", testType.representativeString(ts));
+    }
 }
