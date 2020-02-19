@@ -91,7 +91,8 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
 
         Iterator<TypeEntry> subTypeIterator = getSubTypes().iterator();
 
-        APPEND_SUBTYPES: while (subTypeIterator.hasNext()) {
+        APPEND_SUBTYPES: 
+        while (subTypeIterator.hasNext()) {
             sb.append(subTypeIterator.next().toString());
 
             if (!subTypeIterator.hasNext()) {
@@ -142,6 +143,8 @@ public class CompoundTypeEntry extends AbstractTypeEntry {
         try {
             compoundTypeEntryRepresentative = CompoundTypeEntry.of(getType(), subTypeRepresentatives);
         } catch (ArityException e) {
+            // indicating this is not supposed to happen
+            assert false;
             // the error really shouldn't happen here
             // since the arity should be exactly the same
         }
