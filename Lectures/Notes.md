@@ -59,6 +59,7 @@
       - [Statements that go into pseudo code](#statements-that-go-into-pseudo-code)
       - [Avoid statements specific to one programming language](#avoid-statements-specific-to-one-programming-language)
       - [Good pseudo-code designs](#good-pseudo-code-designs)
+    - [Pseudo-code Programming Process](#pseudo-code-programming-process)
 
 ### Iterative vs Sequential development 
 
@@ -687,3 +688,13 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
 - shud be easy to generate code
 - shud really be for the difficult parts, do not write pseudo-code for one liners
 
+### Pseudo-code Programming Process
+
+1. understand what the requirements are
+2. define problem that routine will solve
+   - **abstraction**: what does the routine hide
+   - what is the **input** and **output**
+     - eg: Output of HuffmanNodes (frequencies) - internal (left/right)/ - leaves (characters): `root(Node)`
+     - eg: Input: table    string -> frequency
+   - **pre-conditions** and **post-conditions**: logic proposition before and after the routine invocation
+3. investigate standard libraries, data structures, data representation, etc.
