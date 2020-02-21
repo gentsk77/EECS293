@@ -53,6 +53,12 @@
       - [Prelim](#prelim)
       - [Rules](#rules)
       - [Routine Parameters](#routine-parameters)
+  - [Week Six](#week-six)
+    - [Pseudo-code](#pseudo-code)
+      - [Design (routine-level)](#design-routine-level)
+      - [Statements that go into pseudo code](#statements-that-go-into-pseudo-code)
+      - [Avoid statements specific to one programming language](#avoid-statements-specific-to-one-programming-language)
+      - [Good pseudo-code designs](#good-pseudo-code-designs)
 
 ### Iterative vs Sequential development 
 
@@ -650,4 +656,34 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
    - eg: if too many parameters in the routine, the parameters can actually relate to each other
    - `foo(x1, x2, x3, ..., x100)`, first three related to RouteNode, the rest to Airport
    - create meaningful abstractions(classes) for the class above, change the code to `foo(RouteName, Airport)`
-2.  consistency with the order of arguments
+2. consistency with the order of arguments
+
+## Week Six
+
+### Pseudo-code
+
+#### Design (routine-level)
+
+- put requirements into design
+- utilize pseudo code to get the high level design done before diving into too many specific details
+
+#### Statements that go into pseudo code
+
+- enlgish-like statements
+- universal programming constructs `if`, `for`, `for each`, `while`, `return`, etc.
+- assignment: `x <- y + 1`, `x = y + 1`
+- math expressions
+- well known algorithms: `sort array w/ merge sort`
+
+#### Avoid statements specific to one programming language
+
+- `a.addAll(b)`
+- `malloc`
+
+#### Good pseudo-code designs
+
+- always convey the **intention** of doing a particular thing
+  - eg: "add ten percent of the interest" instead of `x * 0.1`
+- shud be easy to generate code
+- shud really be for the difficult parts, do not write pseudo-code for one liners
+
