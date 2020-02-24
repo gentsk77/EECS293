@@ -25,7 +25,7 @@ public abstract class SimpleTypeEntry extends AbstractTypeEntry implements Type 
     }
 
     /**
-     * Rreturns the list of sub types. For a SimpleType, a empty list would be
+     * Returns the list of sub types. For a SimpleType, a empty list would be
      * returned.
      * 
      * @return an empty list
@@ -35,10 +35,31 @@ public abstract class SimpleTypeEntry extends AbstractTypeEntry implements Type 
         return new ArrayList<>();
     }
 
+    /**
+     * Determines if this TypeEntry has the equal underlying type as the given
+     * TypeEntry.
+     * 
+     * @return false since two simple type entries could share the same TypeName
+     */
     @Override
     public boolean hasEqualUnderlyingType(TypeEntry other) {
         Objects.requireNonNull(other, "Input TypeEntry should not be null");
 
         return false;
     }
+
+    /**
+     * Return a string representation of the representative of its corresponding
+     * TypeGroup in the given TypeSystem.
+     * 
+     * @param typeSystem the TypeSystem containing this TypeEntry
+     * @return a string representation of the representative of this TypeEntry
+     */
+    @Override
+    protected String basicRepresentativeString(TypeSystem typeSystem) {
+        Objects.requireNonNull(typeSystem, "Input TypeSystem should not be null");
+
+        return typeSystem.representative(this).toString();
+    }
+
 }

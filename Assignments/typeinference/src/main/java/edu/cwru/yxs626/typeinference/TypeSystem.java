@@ -101,7 +101,7 @@ public final class TypeSystem {
         }
         // if either type is variable
         else if (representativeS.isVariable() || representativeT.isVariable()) {
-            appendGroupsOfTypeEntry(representativeS, representativeT);
+            appendTypeGroupsOf(representativeS, representativeT);
             return true;
         } else {
             return false;
@@ -127,7 +127,7 @@ public final class TypeSystem {
         }
 
         // union the two type groups once we make sure they unify
-        appendGroupsOfTypeEntry(s, t);
+        appendTypeGroupsOf(s, t);
 
         return true;
     }
@@ -138,9 +138,14 @@ public final class TypeSystem {
      * @param s the TypeEntry to be appended to
      * @param t the TypeEntry to be appended
      */
-    private final void appendGroupsOfTypeEntry(TypeEntry s, TypeEntry t) {
+    private final void appendTypeGroupsOf(TypeEntry s, TypeEntry t) {
         TypeGroup groupS = groups.get(s);
         TypeGroup groupT = groups.get(t);
-        groupS.append(groupT);
+
+        if (groupS.size() > groupT.size()) {
+            groupS.append(groupT);
+        } else {
+            groupT.append(groupS);
+        }
     }
 }

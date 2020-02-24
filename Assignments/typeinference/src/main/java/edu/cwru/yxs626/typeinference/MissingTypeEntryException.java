@@ -1,5 +1,7 @@
 package edu.cwru.yxs626.typeinference;
 
+import java.util.Objects;
+
 /**
  * A MissingTypeEntryException is thrown when a given TypeEntry is not in the
  * TypeSystem.
@@ -24,6 +26,9 @@ public final class MissingTypeEntryException extends Exception {
      * @param typeSystem the TypeSystem related to the MissingTypeEntryException
      */
     public MissingTypeEntryException(TypeEntry typeEntry, TypeSystem typeSystem) {
+        Objects.requireNonNull(typeEntry, "TypeEntry should not be null");
+        Objects.requireNonNull(typeSystem, "TypeSystem should not be null");
+
         this.typeEntry = typeEntry;
         this.typeSystem = typeSystem;
     }

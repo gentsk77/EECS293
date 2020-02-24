@@ -35,5 +35,19 @@ public interface TypeEntry {
      */
     public List<TypeEntry> getSubTypes();
 
+    /**
+     * Determines if this TypeEntry has the equal underlying type as the given
+     * TypeEntry.
+     * 
+     * @return true if this TypeEntry has the equal underlying type as the given one
+     */
     public boolean hasEqualUnderlyingType(TypeEntry other);
+
+    /**
+     * Return the representative's basic representative string.
+     * 
+     * @param typeSystem the TypeSystem of the TypeEntry
+     * @return the representative's basic representative string.
+     */
+    String representativeString(TypeSystem typeSystem);
 }

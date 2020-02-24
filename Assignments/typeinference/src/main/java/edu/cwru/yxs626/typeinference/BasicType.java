@@ -1,6 +1,8 @@
 package edu.cwru.yxs626.typeinference;
 import java.util.Objects;
 
+import java.util.Objects;
+
 /**
  * BasicType is a simple type, such as Integer, Boolean, or Double.
  * 
@@ -69,5 +71,4 @@ public final class BasicType extends SimpleTypeEntry {
     public String toString() {
         return getTypeName().toString();
     }
-
 }

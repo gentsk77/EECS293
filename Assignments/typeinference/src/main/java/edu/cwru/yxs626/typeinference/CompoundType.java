@@ -1,6 +1,8 @@
 package edu.cwru.yxs626.typeinference;
 import java.util.Objects;
 
+import java.util.Objects;
+
 /**
  * A Compound Type is a type used in conjunction with other types, such as List
  * in the case of List<Integer>.
@@ -14,6 +16,9 @@ public final class CompoundType implements Type {
 
     /** The arity of the CompoundType. */
     private final int arity;
+
+    /** Min arity for a compound type to be valid. */
+    private static int MIN_ARITY = 1;
 
     /**
      * Creates a new CompoundType.
@@ -53,7 +58,7 @@ public final class CompoundType implements Type {
      */
     public static final CompoundType of(String identifier, int arity) {
         Objects.requireNonNull(identifier, "Identifier should not be null");
-
+        
         // moved the location of checkArity
         checkArity(arity);
 
@@ -71,7 +76,7 @@ public final class CompoundType implements Type {
 
     /** Check the arity of the CompoundType to see whether it's valid. */
     private static final void checkArity(int arity) {
-        if (arity < 1) {
+        if (arity < MIN_ARITY) {
             throw new IllegalArgumentException("The input arity should be a positive integer.");
         }
         // else pass the arity test
