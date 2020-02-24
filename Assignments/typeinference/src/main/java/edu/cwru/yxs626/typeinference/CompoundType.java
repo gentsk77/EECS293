@@ -1,4 +1,5 @@
 package edu.cwru.yxs626.typeinference;
+import java.util.Objects;
 
 import java.util.Objects;
 
@@ -58,6 +59,7 @@ public final class CompoundType implements Type {
     public static final CompoundType of(String identifier, int arity) {
         Objects.requireNonNull(identifier, "Identifier should not be null");
         
+        // moved the location of checkArity
         checkArity(arity);
 
         try {

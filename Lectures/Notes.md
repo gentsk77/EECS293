@@ -21,7 +21,7 @@
     - [Boolean Expressions](#boolean-expressions)
     - [Conditional Statements (if, else, switch)](#conditional-statements-if-else-switch)
   - [Week Three](#week-three)
-    - [Discussion on HW2](#discussion-on-hw2)
+    - [Recitation](#recitation)
     - [Loops](#loops)
       - [Entering the Loop](#entering-the-loop)
       - [Middle of Loop](#middle-of-loop)
@@ -34,7 +34,7 @@
       - [Assignment Complexity Requirement](#assignment-complexity-requirement)
       - [Fix Complexity](#fix-complexity)
   - [Week Four](#week-four)
-    - [Recitation](#recitation)
+    - [Recitation](#recitation-1)
       - [Review](#review)
       - [Code Demo](#code-demo)
     - [Design](#design)
@@ -45,6 +45,21 @@
       - [Encapsulation](#encapsulation)
       - [Information Hiding](#information-hiding)
     - [Coupling](#coupling)
+  - [Week Five](#week-five)
+    - [Recitation](#recitation-2)
+    - [Routines (methods)](#routines-methods)
+    - [Cohesiveness](#cohesiveness)
+    - [Routine Names](#routine-names)
+      - [Prelim](#prelim)
+      - [Rules](#rules)
+      - [Routine Parameters](#routine-parameters)
+  - [Week Six](#week-six)
+    - [Pseudo-code](#pseudo-code)
+      - [Design (routine-level)](#design-routine-level)
+      - [Statements that go into pseudo code](#statements-that-go-into-pseudo-code)
+      - [Avoid statements specific to one programming language](#avoid-statements-specific-to-one-programming-language)
+      - [Good pseudo-code designs](#good-pseudo-code-designs)
+    - [Pseudo-code Programming Process](#pseudo-code-programming-process)
 
 ### Iterative vs Sequential development 
 
@@ -267,7 +282,7 @@ eg:
 
 ## Week Three
 
-### Discussion on HW2
+### Recitation
 
 - Use the one-line code below to require a parameter to be not null.
 
@@ -503,3 +518,183 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
   - soldering is a tight coupling
   - should provide standard interface, refer to the interface as form of interaction (plugin/out)
   - tight coupling: **semantic coupling**
+
+## Week Five
+
+### Recitation
+
+- refer to objects by their interface
+  - more flexible
+  - always use least specific class
+- for consistent abstractions
+  - consistenly ignore the same irrelevant details to save complexity
+    - eg: class: Animal (move method), subclass: Bird, Fox
+    - bird: move fly, fox.movefrontleftleg movefrontrightleg
+    - abstract out move from fox and bird and put into animal
+    - as a result, both method of the detailed implementation should be `move`
+    - encapsulate the detailed movements of Fox and Bird, make them private
+- keep coupling loose
+  - work with info hiding and encapsulation
+    - eg: `TypeSystem::of`: even though TypeName checked null input, we should still make TypeSystem check for null input
+  - instead of have `GameButton` and `ExitButton`, `PlayButton` extending the game button,
+    - have interface `Button` and method stubs
+  - prefer interfaces to extension
+  - semantic coupling:
+    - you know smething happens somewhere else, so you do something because you already know
+    - passing around data internally
+    - only pass part of the object when you can, try to avoid passing the entire object
+- class structure sequence:  public - default - private
+  - fields
+  - constructor, builder
+  - getter
+  - helpers
+  - methods w/ helpers
+  - @Override
+
+### Routines (methods)
+
+- avoid repeated code
+- manage complexity
+- introduce abstractoins
+  - using abstractions to reduce repeated code and split the routines
+  - sometimes have abstraction in spite of complexity to allow for future refining/improvement in performance
+- support inheritance
+  - having a routine support the overriding in subclasses/implementation
+- improve portability
+  - could create routine to check the compatibility of systems so we don't need to check it everytime
+- performance
+  - have external overhead execution instead of inline execution
+
+### Cohesiveness
+
+- functional cohesiveness
+  - a routine should do one and only one thing
+  - primary
+  - eg: `Math.sin(double x)`, `eraseFile()`, `computeTotals()`
+  - for the examples above, a bad example would be `computeTotalAndEraseFile()`
+    - not functionally cohesive
+    - name is too long
+- sequential cohesiveness (?)
+  - less important
+  - birthdate --> age --> time to retirement
+  - could pack the routines due to sequential
+  - purely due to laziness, just split the routines!!
+- communication cohesiveness (?)
+  - birthdate --> age
+  - birthdate --> time to retire
+  - pack two routines into the same because both parameters are the same
+  - this is purely due to laziness!
+- temperal cohesiveness
+
+  ``` Java
+
+  void shutDown() {
+    ... 100 lines to save totals
+    ... 100 lines to erase file
+  }
+  ```
+
+  - just replace the lines above with `saveTotals()` and `eraseFile()`
+  - it's okay to have a temperal point that has meaningful functionality
+- logical cohesive (???)
+
+  - example:
+
+  ``` Java
+
+    void foo() {
+      // not mutually cohesive
+      case(...) {
+        // should become its own method
+        ... 100 lines to save totals
+      }
+      // same below
+      case(...) {
+        ... 100 lines to save totals
+      }
+      case(...) {
+        ... 100 lines to save totals
+      }
+      default {
+        ... 50 lines
+      }
+    }
+  ```
+
+### Routine Names
+
+- primary reason to create routine is to control complexity by creating meaningful **abstraction**
+- reader of your code unaware of your meaningful abstraction without a clear and intuitive name
+
+#### Prelim
+
+1. name everything at a high level
+   - `printReportAndEraseFile` is a good name for a bad routine cuz it reveal its not cohesive natur
+2. avoid meaningless verbs or numbers
+   - `processInput`, `handleOutput`
+   - `foo`, `bar`
+   - `print1`, `print2`, `print3`
+
+#### Rules
+
+- a routine is either a function or a procedure
+- function
+  - primary purpose is to **return a value**
+  - eg: `Math.sin(x)`
+  - *should be named by the value it returns*
+  - special cases:
+    - getter methods: `get[variablename]`
+    - boolean value: phrased as question
+    - conversions: `[a]2[b]`
+- procedure
+  - primary purpose is to p**erform an operation**
+  - eg: `eraseFile()`
+  - should be named as `[verb][object]`
+
+#### Routine Parameters
+
+1. number of arguments <= 7
+   - eg: if too many parameters in the routine, the parameters can actually relate to each other
+   - `foo(x1, x2, x3, ..., x100)`, first three related to RouteNode, the rest to Airport
+   - create meaningful abstractions(classes) for the class above, change the code to `foo(RouteName, Airport)`
+2. consistency with the order of arguments
+
+## Week Six
+
+### Pseudo-code
+
+#### Design (routine-level)
+
+- put requirements into design
+- utilize pseudo code to get the high level design done before diving into too many specific details
+
+#### Statements that go into pseudo code
+
+- enlgish-like statements
+- universal programming constructs `if`, `for`, `for each`, `while`, `return`, etc.
+- assignment: `x <- y + 1`, `x = y + 1`
+- math expressions
+- well known algorithms: `sort array w/ merge sort`
+
+#### Avoid statements specific to one programming language
+
+- `a.addAll(b)`
+- `malloc`
+
+#### Good pseudo-code designs
+
+- always convey the **intention** of doing a particular thing
+  - eg: "add ten percent of the interest" instead of `x * 0.1`
+- shud be easy to generate code
+- shud really be for the difficult parts, do not write pseudo-code for one liners
+
+### Pseudo-code Programming Process
+
+1. understand what the requirements are
+2. define problem that routine will solve
+   - **abstraction**: what does the routine hide
+   - what is the **input** and **output**
+     - eg: Output of HuffmanNodes (frequencies) - internal (left/right)/ - leaves (characters): `root(Node)`
+     - eg: Input: table    string -> frequency
+   - **pre-conditions** and **post-conditions**: logic proposition before and after the routine invocation
+3. investigate standard libraries, data structures, data representation, etc.
