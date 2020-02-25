@@ -81,6 +81,8 @@ Algorithm `new` of `ReducedIPEntryList`:
         end for
     end for
 
+---
+
 Algorithm `increment(x)` of `ReducedIPEntryList`:
 
     Input: an IP address x, should be a string value in the IPv4 format 
@@ -108,6 +110,8 @@ Algorithm `increment(x)` of `ReducedIPEntryList`:
     ipEntry <- the {index}th element in the ipEntryList
 
     ipEntry.increment()    
+
+---
 
 Algorithm `count(x)` of `ReducedIPEntryList`:
 
@@ -137,9 +141,17 @@ Algorithm `count(x)` of `ReducedIPEntryList`:
 
     return ipEntry.count() / 16
 
+## Time and Space Complexity
 
+In general my implementation is an abstraction of an 1-D array with entries corresponding to the IP address. The size of the 1-D array would be the total size of the IP addresses in the field, which in my case would be $256^3 * 16 = 268435456$. Therefore, to calculate the index of each IP address, the general formular to consider is `firstByte * IPEntry.MAXSECONDBYTE * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE + secondByte * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE + thirdByte * IPEntry.MAXFOURTHBYTE`.
 
+By using the index calculated as above, we could achieve both `increment(x)` and `count(x)` in constant time $O(1)$, and store the entire data in reduced linear space $O(n/16)$. In the future, when we need to access the most hit IP addresses, we can just use a list to keep track of the IPEntries with hits we are interested in, with constant extra space.
 
-                
+## Justification
 
+The algorithm involves nothing complex enough that requires very specific justification. Generally, we trade-off the accuracy of the algorithm by a fraction of 16 to save more space complexity. In other words, we combine every 16 of the IP addresses together as one single IPEntry.
+
+As a result, every time the count corresponding to an IP address is to be incremented, the IPEntry corresponding to this specific IP address along with 15 others is incremented. On the other hand, each time we need to retreive the count of one certain IP address, the retrieved value would actually be the count of the corresponding IPEntry factored by 16, which could slightly affect the accuracy of the result. However, since we are generally interested in indentifying whether such automatic bots or search engines exist, it is less important for us to get an exact number than to detect a number large enough. Even though the actual value is split up by 16 to the neighbouring IP addresses, an entity with count greater than a threshond we set could generally mean something specific to us and decide how to move forward.
+
+## Usage Examples
 
