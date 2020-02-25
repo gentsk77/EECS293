@@ -4,7 +4,7 @@ Yue Shu
 EECS 293
 Prof. Liberatore
 
-> Reference: for this assignment, I have made some high-level discussions with my discussio classmate Yihe Guo. We collaborated conceptually on the use of group IP addresses.
+> Reference: for this assignment, I have made some high-level discussions with my discussion classmate Yihe Guo. We discussed conceptually on the use of group IP addresses.
 
 ## Class-Level Design
 
@@ -16,6 +16,7 @@ Class `IPEntry`:
     global field MAXSECONDBYTE <- 255
     global field MAXTHIRDBYTE <- 255
     global field MAXFOURTHBYTE <- 15
+    global field REDUCEFACTOR <- 16
 
     field firstByte <- the fist byte of the IPv4 address, ranging from 0 - MAXFIRSTBYTE
     field secondByte <- the second byte of the IPv4 address, ranging from 0 - MAXSECONDBYTE
@@ -33,7 +34,7 @@ Class `IPEntry`:
 
     a global method isValid to validate whether the input IP address string is in valid IPv4 format
 
-Notice that the range of the IP address object would be 0.0.0.0 - 255.255.255.15, i.e. the last part of the IPv4 address would be partitioned into the range of 0 - 15 to save the space. Therefore, there should be in total $256^3 * 16 = 268435456$ IP addresses in total.
+Notice that the range of the IP address object would be 0.0.0.0 - 255.255.255.15, i.e. the last part of the IPv4 address would be partitioned into the range of 0 - 15 to save the space. Therefore, there should be in total $256^3 * 16 = 268435456$ IP addresses.
 
 ---
 
@@ -103,7 +104,7 @@ Algorithm `increment(x)` of `ReducedIPEntryList`:
     firstByte <- parsed first byte of x
     secondByte <- parsed second byte of x
     thirdByte <- parsed third byte of x
-    fourthByte <- (parsed fourth byte of x) / 16
+    fourthByte <- (parsed fourth byte of x) / IPEntry.REDUCEFACTOR
 
     index <- firstByte * IPEntry.MAXSECONDBYTE * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE
              + secondByte * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE + 
@@ -134,7 +135,7 @@ Algorithm `count(x)` of `ReducedIPEntryList`:
     firstByte <- parsed first byte of x
     secondByte <- parsed second byte of x
     thirdByte <- parsed third byte of x
-    fourthByte <- (parsed fourth byte of x) / 16
+    fourthByte <- (parsed fourth byte of x) / IPEntry.REDUCEFACTOR
 
     index <- firstByte * IPEntry.MAXSECONDBYTE * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE
              + secondByte * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE 
@@ -142,19 +143,18 @@ Algorithm `count(x)` of `ReducedIPEntryList`:
              + fourthByte
     ipEntry <- the {index}th element in the ipEntryList
 
-    return ipEntry.count() / 16
+    return ipEntry.count() / IPEntry.REDUCEFACTOR
 
 ## Usage Examples
 
 Suppose in we are to run the program in Java language environment. We can instantiate a new Gigatron data structure and invoke the routines as follows
 
-``` Java
+    GigatronDataStructure gigatronDataStructure = new ReducedIPEntryList();
 
-GigatronDataStructure gigatronDataStructure = new ReducedIPEntryList();
+    gigatronDataStructure.increment("129.0.0.1");
+    gigatronDataStructure.count("129.0.0.1");
 
-gigatronDataStructure.increment("129.0.0.1");
-gigatronDataStructure.count("129.0.0.1");
-```
+In the case above, the IP address will be inserted in the $129 * 256 * 256 * 16 + 1 / 16 = 270532608$th IPEntry in the list. We will be also indpecting the count of the IP address by looking at the entry with this computed index.
 
 ## Time and Space Complexity
 

@@ -60,6 +60,8 @@
       - [Avoid statements specific to one programming language](#avoid-statements-specific-to-one-programming-language)
       - [Good pseudo-code designs](#good-pseudo-code-designs)
     - [Pseudo-code Programming Process](#pseudo-code-programming-process)
+  - [Week Seven](#week-seven)
+    - [Discussion](#discussion)
 
 ### Iterative vs Sequential development 
 
@@ -698,3 +700,8 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
      - eg: Input: table    string -> frequency
    - **pre-conditions** and **post-conditions**: logic proposition before and after the routine invocation
 3. investigate standard libraries, data structures, data representation, etc.
+
+## Week Seven
+
+### Discussion
+
