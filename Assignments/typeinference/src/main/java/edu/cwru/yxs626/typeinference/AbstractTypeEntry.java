@@ -40,9 +40,13 @@ public abstract class AbstractTypeEntry implements TypeEntry {
     @Override
     public String representativeString(TypeSystem typeSystem) {
         Objects.requireNonNull(typeSystem, "Input TypeSystem should not be null");
+        
+        TypeEntry rep = typeSystem.representative(this);
 
-        AbstractTypeEntry representative = (AbstractTypeEntry) typeSystem.representative(this);
+        if (rep != this) {
+            return rep.representativeString(typeSystem);
+        }
 
-        return representative.basicRepresentativeString(typeSystem);
+        return basicRepresentativeString(typeSystem);
     }
 }
