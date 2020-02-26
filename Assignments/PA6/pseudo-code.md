@@ -4,8 +4,6 @@ Yue Shu
 EECS 293
 Prof. Liberatore
 
-> Reference: for this assignment, I have made some high-level discussions with my discussion classmate Yihe Guo. We discussed conceptually on the use of group IP addresses.
-
 ## Class-Level Design
 
 > This part is simply for my reference for future implementation.
