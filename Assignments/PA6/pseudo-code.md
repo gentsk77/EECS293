@@ -2,9 +2,9 @@
 
 Yue Shu
 EECS 293
-Prof. Libertore
+Prof. Liberatore
 
-> Reference: for this assignment, I have made some high-level discussions with my discussio classmate Yihe Guo. We collaborated conceptually on the use of group IP addresses.
+> This is the original version of my code design. Most changes are done on the abstracted data structure and the choice of IP address data type.
 
 ## Class-Level Design
 
@@ -16,6 +16,7 @@ Class `IPEntry`:
     global field MAXSECONDBYTE <- 255
     global field MAXTHIRDBYTE <- 255
     global field MAXFOURTHBYTE <- 15
+    global field REDUCEFACTOR <- 16
 
     field firstByte <- the fist byte of the IPv4 address, ranging from 0 - MAXFIRSTBYTE
     field secondByte <- the second byte of the IPv4 address, ranging from 0 - MAXSECONDBYTE
@@ -33,7 +34,7 @@ Class `IPEntry`:
 
     a global method isValid to validate whether the input IP address string is in valid IPv4 format
 
-Notice that the range of the IP address object would be 0.0.0.0 - 255.255.255.15, i.e. the last part of the IPv4 address would be partitioned into the range of 0 - 15 to save the space. Therefore, there should be in total $256^4 / 16 = 268435456$ IP addresses in total.
+Notice that the range of the IP address object would be 0.0.0.0 - 255.255.255.15, i.e. the last part of the IPv4 address would be partitioned into the range of 0 - 15 to save the space. Therefore, there should be in total $256^3 * 16 = 268435456$ IP addresses.
 
 ---
 
@@ -41,7 +42,7 @@ Interface `GigatronDataStructure`:
 
     method stub increment(x): increment the number of hits originating from IP address x
 
-    method stub count(x): returns a count of the hits from IP address x
+    method stub count(x): returns the count of the hits from IP address x
 
 The interface `GigatronDataStructure` is supposed to be made public and accessible to the users. It should be similar to the `TypeEntry` in our previous assignments. The interface is used to abstract the actual implementations as in the future we can provide other implementations to replace the one introduced below.
 
@@ -69,7 +70,8 @@ Algorithm `new` of `ReducedIPEntryList`:
     ipEntryList <- an empty list field to store IPEntry
 
     initialize the size of ipEntryList to be IPEntry.MAXFIRSTBYTE * IPEntry.MAXSECONDBYTE 
-                                                                  * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE
+                                                                  * IPEntry.MAXTHIRDBYTE 
+                                                                  * IPEntry.MAXFOURTHBYTE
 
     for each integer value firstByte in the range of IPEntry.MAXFIRSTBYTE
         for each integer value secondByte in the range of IPEntry.MAXSECONDBYTE
@@ -102,10 +104,11 @@ Algorithm `increment(x)` of `ReducedIPEntryList`:
     firstByte <- parsed first byte of x
     secondByte <- parsed second byte of x
     thirdByte <- parsed third byte of x
-    fourthByte <- (parsed fourth byte of x) / 16
+    fourthByte <- (parsed fourth byte of x) / IPEntry.REDUCEFACTOR
 
     index <- firstByte * IPEntry.MAXSECONDBYTE * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE
-             + secondByte * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE + thirdByte * IPEntry.MAXFOURTHBYTE
+             + secondByte * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE + 
+             + thirdByte * IPEntry.MAXFOURTHBYTE
              + fourthByte
     ipEntry <- the {index}th element in the ipEntryList
 
@@ -132,14 +135,26 @@ Algorithm `count(x)` of `ReducedIPEntryList`:
     firstByte <- parsed first byte of x
     secondByte <- parsed second byte of x
     thirdByte <- parsed third byte of x
-    fourthByte <- (parsed fourth byte of x) / 16
+    fourthByte <- (parsed fourth byte of x) / IPEntry.REDUCEFACTOR
 
     index <- firstByte * IPEntry.MAXSECONDBYTE * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE
-             + secondByte * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE + thirdByte * IPEntry.MAXFOURTHBYTE
+             + secondByte * IPEntry.MAXTHIRDBYTE * IPEntry.MAXFOURTHBYTE 
+             + thirdByte * IPEntry.MAXFOURTHBYTE
              + fourthByte
     ipEntry <- the {index}th element in the ipEntryList
 
-    return ipEntry.count() / 16
+    return ipEntry.count() / IPEntry.REDUCEFACTOR
+
+## Usage Examples
+
+Suppose in we are to run the program in Java language environment. We can instantiate a new Gigatron data structure and invoke the routines as follows
+
+    GigatronDataStructure gigatronDataStructure = new ReducedIPEntryList();
+
+    gigatronDataStructure.increment("129.0.0.1");
+    gigatronDataStructure.count("129.0.0.1");
+
+In the case above, the IP address will be inserted in the $129 * 256 * 256 * 16 + 1 / 16 = 270532608$th IPEntry in the list. We will be also indpecting the count of the IP address by looking at the entry with this computed index.
 
 ## Time and Space Complexity
 
@@ -151,7 +166,4 @@ By using the index calculated as above, we could achieve both `increment(x)` and
 
 The algorithm involves nothing complex enough that requires very specific justification. Generally, we trade-off the accuracy of the algorithm by a fraction of 16 to save more space complexity. In other words, we combine every 16 of the IP addresses together as one single IPEntry.
 
-As a result, every time the count corresponding to an IP address is to be incremented, the IPEntry corresponding to this specific IP address along with 15 others is incremented. On the other hand, each time we need to retreive the count of one certain IP address, the retrieved value would actually be the count of the corresponding IPEntry factored by 16, which could slightly affect the accuracy of the result. However, since we are generally interested in indentifying whether such automatic bots or search engines exist, it is less important for us to get an exact number than to detect a number large enough. Even though the actual value is split up by 16 to the neighbouring IP addresses, an entity with count greater than a threshond we set could generally mean something specific to us and decide how to move forward.
-
-## Usage Examples
-
+As a result, every time the count corresponding to an IP address is to be incremented, the IPEntry corresponding to this specific IP address along with 15 others is incremented. On the other hand, each time we need to retreive the count of one certain IP address, the retrieved value would actually be the count of the corresponding IPEntry factored by 16, which could slightly affect the accuracy of the result. However, since we are generally interested in indentifying whether such automatic bots or search engines exist, it is less important for us to get an exact number than to detect a number large enough. Even though the actual value is split up by 16 to the neighbouring IP addresses, an entity with count greater than a threshond we set could generally mean something specific to us.
