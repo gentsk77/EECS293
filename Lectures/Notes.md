@@ -60,13 +60,18 @@
       - [Avoid statements specific to one programming language](#avoid-statements-specific-to-one-programming-language)
       - [Good pseudo-code designs](#good-pseudo-code-designs)
     - [Pseudo-code Programming Process](#pseudo-code-programming-process)
+  - [Week Seven](#week-seven)
+    - [Development Environment](#development-environment)
+      - [Version Control](#version-control)
+      - [Build Systems](#build-systems)
+      - [Server Setup](#server-setup)
 
-### Iterative vs Sequential development 
+### Iterative vs Sequential development
 
 #### Sequential
 
 - could somehow jump directly to a solution
-- major steps: requirement development -> construction planning -> software architecture -> unit testing -> integration testing etc. 
+- major steps: requirement development -> construction planning -> software architecture -> unit testing -> integration testing etc.
 
 #### Iterative
 
@@ -74,32 +79,31 @@
 - define problem first
 - resent prototype that demo only parts of the features
 - eg: airport prototypes w/o sbux
-- major stpes: similar to pure sequential, though in iterative mannar 
+- major stpes: similar to pure sequential, though in iterative mannar
 
-Makes adjustments in timely mannar 
+Makes adjustments in timely mannar
 
 ### Problem Definition
 
-A short description of what **problem** your software will solve. 
+A short description of what **problem** your software will solve.
 
 Differentiate: when it is delivered, it seems to be a concise and simple statement of your solution to the problem. 
 
-eg: when asked about a problem, people tends to describe possible solutions rather than the prolbem itself. Transportation vs Automobiles 
+eg: when asked about a problem, people tends to describe possible solutions rather than the prolbem itself. Transportation vs Automobiles
 
 ### Requirement Development
 
-**User stories**: for collecting requirements 
+**User stories**: for collecting requirements
 
 - eg: "As a customer, I want to enter my credit card information so that I can pay for my purchase"
-- can put various test cases according to the user stories 
+- can put various test cases according to the user stories
 - should prioritize the user stories (eg: according to significance/workload/phase of release etc.)
 
 ### Software Architecture
 
-
 **Software organization**: the following decisions to make
 
-- the organization of the software in terms of packages, components, classes, etc. 
+- the organization of the software in terms of packages, components, classes, etc.
 - and how the pieces of software listed above interact with each other
 - figure 5-5 on CC
   - application level classes: the core of this software
@@ -698,3 +702,31 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
      - eg: Input: table    string -> frequency
    - **pre-conditions** and **post-conditions**: logic proposition before and after the routine invocation
 3. investigate standard libraries, data structures, data representation, etc.
+
+## Week Seven
+
+### Development Environment
+
+- version control (git)
+- build system (ant)
+- server setup
+
+#### Version Control
+
+- automates the process of saving different versions of the files you edited
+- provide different branches of the versions
+- repository for file hosting and sharing among multiple developers
+
+#### Build Systems
+
+- build.xml (use downloaded)
+  - a set of target dependent on each other
+  - <target build
+  - <target run depends = "build">
+    - do build before run and test
+  - <target test depends = "build">
+  - <target report depends = "test">
+    - build test then report
+  - <target doc
+
+#### Server Setup
