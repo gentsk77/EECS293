@@ -65,6 +65,17 @@
       - [Version Control](#version-control)
       - [Build Systems](#build-systems)
       - [Server Setup](#server-setup)
+  - [Week Eight](#week-eight)
+    - [Testing](#testing)
+      - [Unit Test](#unit-test)
+      - [Code Coverage](#code-coverage)
+      - [Branch Coverage](#branch-coverage)
+      - [Boundary Conditions](#boundary-conditions)
+      - [Compound Boundaries](#compound-boundaries)
+      - [Bad Data](#bad-data)
+      - [Good Data](#good-data)
+      - [Error Guessing](#error-guessing)
+      - [Stress Test](#stress-test)
 
 ### Iterative vs Sequential development
 
@@ -730,3 +741,83 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
   - <target doc
 
 #### Server Setup
+
+see canvas resources
+
+## Week Eight
+
+### Testing
+
+- cannot prove code correct
+
+  ``` java
+  void foo(String name, String address, int phNumber) {
+    ...
+  }
+
+  ```
+
+#### Unit Test
+
+- test for routines
+- in the example below, test `foo1`, `foo2`, then test `foo3` assuming that `foo1` and `foo2` achieve their objectives
+
+  ``` java
+  void foo1() {...}
+
+  void foo2() {...}
+
+  void foo3() {
+    foo1()
+    foo2()
+  }
+
+  ```
+
+#### Code Coverage
+
+- the code has been fully coveraged by the test
+- every line of code is covered by at least one test case
+- achieved by making all of the conditions true, so all of the lines are executed
+
+#### Branch Coverage
+
+- not only cover line in my code, but also every condition statement (`if`)
+- every condition is tested in both true cases and false cases
+- trues might have already been coverd in code coverage, now we can focus on false cases
+
+#### Boundary Conditions
+
+- according to code/branch coverage, write two cases for the code below: `x > y`, `x < y`
+- is the code correct? the code/branch coverage failed to check if `x <= y`
+- boundary condition means we should check three things: `x > y`, `x < y`, `x = y`, create one more condition for the boundary case
+- jacoco report wouldn't check if we miss boudary cases
+
+  ``` java
+  if (x < y) {
+    ...
+  }
+
+  ```
+
+#### Compound Boundaries
+
+- boundary conditions are still visible in the code, but compound bondaries can be more implicit
+- consider `if (x < y && y < z)`, there is a hidden comparison that `x < z`
+  - check addition conditions that `x < z`, `x = z`, `x > z`
+
+#### Bad Data
+
+- no data, un initialized data (`null`), extra elements, etc.
+
+#### Good Data
+
+- nominal average case (min/avg/max expected case)
+
+#### Error Guessing
+
+- open ended, try to guess possible errors
+
+#### Stress Test
+
+- 
