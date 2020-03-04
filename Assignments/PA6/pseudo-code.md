@@ -4,6 +4,8 @@ Yue Shu
 EECS 293
 Prof. Liberatore
 
+> This is the original version of my code design. Most changes are done on the abstracted data structure and the choice of IP address data type.
+
 ## Class-Level Design
 
 > This part is simply for my reference for future implementation.
