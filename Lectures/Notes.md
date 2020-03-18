@@ -820,4 +820,30 @@ see canvas resources
 
 #### Stress Test
 
-- 
+#### Tests: Design and Developments
+
+- DESIGN the test:
+  - Table of conditions: Goal, Notes, Conditions
+    - 3 tests for boundary
+    - hidden comparison: boundary analysis
+  - Condense the table:
+    - Test Conditions (arguments for the test) 
+    - Condition satisfied (what tests in the complete table it satisfied)
+    - Assertion (waht to assert in the end of test)
+  - Can further reduce by putting several conditions into one loop
+    - Can take longer to debug
+- Stress test: needs some thoughts
+- Private methods need to be checked individually
+  - Define nested class: it has access to all methods in the outer class
+  - In nested class, define a wrapper that invokes the private method and return what that method returns
+- Errors: 
+  - Happends because requirements are unclear/ambiguous
+  - Requirements was misunderstood (not enough time put into understanding them)
+  - Errors are "small" (not small consequences)
+    - Prevent by psychological distance: stoppt v.s. stcppt
+    - Within a single routine
+    - A typo, one character etc.
+    - Ex : < v.s. <=
+  - Concentrated in some areas (small number of classes)
+    - Poorly designed
+    - Bad developer did them
