@@ -76,6 +76,10 @@
       - [Good Data](#good-data)
       - [Error Guessing](#error-guessing)
       - [Stress Test](#stress-test)
+  - [Week Nine](#week-nine)
+    - [Debugging](#debugging)
+      - [Process of debugging](#process-of-debugging)
+      - [Fixing the error](#fixing-the-error)
 
 ### Iterative vs Sequential development
 
@@ -820,4 +824,62 @@ see canvas resources
 
 #### Stress Test
 
+#### Tests: Design and Developments
+
+- DESIGN the test:
+  - Table of conditions: Goal, Notes, Conditions
+    - 3 tests for boundary
+    - hidden comparison: boundary analysis
+  - Condense the table:
+    - Test Conditions (arguments for the test) 
+    - Condition satisfied (what tests in the complete table it satisfied)
+    - Assertion (waht to assert in the end of test)
+  - Can further reduce by putting several conditions into one loop
+    - Can take longer to debug
+- Stress test: needs some thoughts
+- Private methods need to be checked individually
+  - Define nested class: it has access to all methods in the outer class
+  - In nested class, define a wrapper that invokes the private method and return what that method returns
+- Errors: 
+  - Happends because requirements are unclear/ambiguous
+  - Requirements was misunderstood (not enough time put into understanding them)
+  - Errors are "small" (not small consequences)
+    - Prevent by psychological distance: stoppt v.s. stcppt
+    - Within a single routine
+    - A typo, one character etc.
+    - Ex : < v.s. <=
+  - Concentrated in some areas (small number of classes)
+    - Poorly designed
+    - Bad developer did them
+
+## Week Nine
+
+### Debugging
+
+- need to take time to understand how the code work
+- do not simply guess where the error is and what the fix would be
+  - names of routines
+  - use large psychological distance
+  - commenting: JavaDoc, etc.
+- understand not just the code, but also the process
+
+#### Process of debugging
+
+1. find the error (scientific method)
+   - gather data:
+     - unit tests
+     - debugger
+     - `git diff`: find the first version where the error ws introduced, and from diff we could see which lines of code where changed
+     - look for previous errors (eg: consistently confuse < with <=, 5% contains 50% errors)
+   - analyze data
+   - formulate hypothesis
+   - verify if the hypothesis is correct (gather more data), if not repeat
+2. fix error
+
+#### Fixing the error
+
+- understand code base, hence the fix
+- relax, do not commit the fix right away, think about the fix, do not rush
+- add unit tests
+- brute force debugging
 - 
