@@ -84,6 +84,8 @@
     - [Defensive Programming](#defensive-programming)
       - [Error Handling](#error-handling)
       - [Correctness (correct under all circumstances)](#correctness-correct-under-all-circumstances)
+      - [Exceptions](#exceptions)
+    - [Failure Atomicity](#failure-atomicity)
 
 ### Iterative vs Sequential development
 
@@ -931,4 +933,52 @@ void sampleMethod(int x) {
 }
 
 ```
+
+#### Exceptions
+
+- exceptions (throw NullPointerException)
+- good:
+  - easy to throw
+  - work as footnotes in your code
+- main problem:
+  - breaks modularity
+
+  ``` Java
+
+  LABEL:
+  while (condition) {
+    ...
+    break LABEL; // break modularity, better to be avoided?
+  }
+  ```
+
+- compare with Exceptions: break out of your code, but worse
+  - you do not know where exception is caught
+- **ONLY** use exceptions for exceptional conditions (exceptions, haha), **NEVER** abuse it when avoidable
+- deal with exceptions using appropriate level structure
+- propogate low level exceptions to high level exceptions to provide information, uniform the level of exceptions and achieve for a particular level of abstraction
+- **DO NOT** ignore exceptions (empty `catch` block)
+  - use assert: `assert false: "msg";
+  - or declare a comment as below
+
+    ``` Java
+
+    catch (TimeoutException | ExecutionException ignored) {
+      // Use default: minimal for timing
+    }
+    ```
+
+- use `try-with-resources` with any library extending `AutoCloseable` so the resources will be automatically closed when an Exception is thrown (eg: `BufferReader`, etc.)
+- **NEVER** throw eceptions in constructors
+  - Java specific: security issue if constructor throws exceptions, client can use garbage collection to get access to the entire system
+  - language agnostic: constructing half baked object (half constructed) and half null
+    - eg: constructor opens two files and locks them, then other method would not be able to use them
+  - in general, the constructor will lock the system in a way you cannot recover
+  - solution: private constructor w/o exceptions + public build methods (eg: `Type.of`) w/ exceptions
+
+### Failure Atomicity
+
+- a failed method invocation should leave the object in the state completely unchanged, in the state prior to the method invocation
+- eg: build method does not construct object if it fails
+- `void foo()` should not change private variables if it fails
 
