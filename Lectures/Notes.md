@@ -60,13 +60,33 @@
       - [Avoid statements specific to one programming language](#avoid-statements-specific-to-one-programming-language)
       - [Good pseudo-code designs](#good-pseudo-code-designs)
     - [Pseudo-code Programming Process](#pseudo-code-programming-process)
+  - [Week Seven](#week-seven)
+    - [Development Environment](#development-environment)
+      - [Version Control](#version-control)
+      - [Build Systems](#build-systems)
+      - [Server Setup](#server-setup)
+  - [Week Eight](#week-eight)
+    - [Testing](#testing)
+      - [Unit Test](#unit-test)
+      - [Code Coverage](#code-coverage)
+      - [Branch Coverage](#branch-coverage)
+      - [Boundary Conditions](#boundary-conditions)
+      - [Compound Boundaries](#compound-boundaries)
+      - [Bad Data](#bad-data)
+      - [Good Data](#good-data)
+      - [Error Guessing](#error-guessing)
+      - [Stress Test](#stress-test)
+  - [Week Nine](#week-nine)
+    - [Debugging](#debugging)
+      - [Process of debugging](#process-of-debugging)
+      - [Fixing the error](#fixing-the-error)
 
-### Iterative vs Sequential development 
+### Iterative vs Sequential development
 
 #### Sequential
 
 - could somehow jump directly to a solution
-- major steps: requirement development -> construction planning -> software architecture -> unit testing -> integration testing etc. 
+- major steps: requirement development -> construction planning -> software architecture -> unit testing -> integration testing etc.
 
 #### Iterative
 
@@ -74,32 +94,31 @@
 - define problem first
 - resent prototype that demo only parts of the features
 - eg: airport prototypes w/o sbux
-- major stpes: similar to pure sequential, though in iterative mannar 
+- major stpes: similar to pure sequential, though in iterative mannar
 
-Makes adjustments in timely mannar 
+Makes adjustments in timely mannar
 
 ### Problem Definition
 
-A short description of what **problem** your software will solve. 
+A short description of what **problem** your software will solve.
 
 Differentiate: when it is delivered, it seems to be a concise and simple statement of your solution to the problem. 
 
-eg: when asked about a problem, people tends to describe possible solutions rather than the prolbem itself. Transportation vs Automobiles 
+eg: when asked about a problem, people tends to describe possible solutions rather than the prolbem itself. Transportation vs Automobiles
 
 ### Requirement Development
 
-**User stories**: for collecting requirements 
+**User stories**: for collecting requirements
 
 - eg: "As a customer, I want to enter my credit card information so that I can pay for my purchase"
-- can put various test cases according to the user stories 
+- can put various test cases according to the user stories
 - should prioritize the user stories (eg: according to significance/workload/phase of release etc.)
 
 ### Software Architecture
 
-
 **Software organization**: the following decisions to make
 
-- the organization of the software in terms of packages, components, classes, etc. 
+- the organization of the software in terms of packages, components, classes, etc.
 - and how the pieces of software listed above interact with each other
 - figure 5-5 on CC
   - application level classes: the core of this software
@@ -698,3 +717,169 @@ type.toString() + subtypes.Stream().map(subtype -> substring.apply(subtype)).col
      - eg: Input: table    string -> frequency
    - **pre-conditions** and **post-conditions**: logic proposition before and after the routine invocation
 3. investigate standard libraries, data structures, data representation, etc.
+
+## Week Seven
+
+### Development Environment
+
+- version control (git)
+- build system (ant)
+- server setup
+
+#### Version Control
+
+- automates the process of saving different versions of the files you edited
+- provide different branches of the versions
+- repository for file hosting and sharing among multiple developers
+
+#### Build Systems
+
+- build.xml (use downloaded)
+  - a set of target dependent on each other
+  - <target build
+  - <target run depends = "build">
+    - do build before run and test
+  - <target test depends = "build">
+  - <target report depends = "test">
+    - build test then report
+  - <target doc
+
+#### Server Setup
+
+see canvas resources
+
+## Week Eight
+
+### Testing
+
+- cannot prove code correct
+
+  ``` java
+  void foo(String name, String address, int phNumber) {
+    ...
+  }
+
+  ```
+
+#### Unit Test
+
+- test for routines
+- in the example below, test `foo1`, `foo2`, then test `foo3` assuming that `foo1` and `foo2` achieve their objectives
+
+  ``` java
+  void foo1() {...}
+
+  void foo2() {...}
+
+  void foo3() {
+    foo1()
+    foo2()
+  }
+
+  ```
+
+#### Code Coverage
+
+- the code has been fully coveraged by the test
+- every line of code is covered by at least one test case
+- achieved by making all of the conditions true, so all of the lines are executed
+
+#### Branch Coverage
+
+- not only cover line in my code, but also every condition statement (`if`)
+- every condition is tested in both true cases and false cases
+- trues might have already been coverd in code coverage, now we can focus on false cases
+
+#### Boundary Conditions
+
+- according to code/branch coverage, write two cases for the code below: `x > y`, `x < y`
+- is the code correct? the code/branch coverage failed to check if `x <= y`
+- boundary condition means we should check three things: `x > y`, `x < y`, `x = y`, create one more condition for the boundary case
+- jacoco report wouldn't check if we miss boudary cases
+
+  ``` java
+  if (x < y) {
+    ...
+  }
+
+  ```
+
+#### Compound Boundaries
+
+- boundary conditions are still visible in the code, but compound bondaries can be more implicit
+- consider `if (x < y && y < z)`, there is a hidden comparison that `x < z`
+  - check addition conditions that `x < z`, `x = z`, `x > z`
+
+#### Bad Data
+
+- no data, un initialized data (`null`), extra elements, etc.
+
+#### Good Data
+
+- nominal average case (min/avg/max expected case)
+
+#### Error Guessing
+
+- open ended, try to guess possible errors
+
+#### Stress Test
+
+#### Tests: Design and Developments
+
+- DESIGN the test:
+  - Table of conditions: Goal, Notes, Conditions
+    - 3 tests for boundary
+    - hidden comparison: boundary analysis
+  - Condense the table:
+    - Test Conditions (arguments for the test) 
+    - Condition satisfied (what tests in the complete table it satisfied)
+    - Assertion (waht to assert in the end of test)
+  - Can further reduce by putting several conditions into one loop
+    - Can take longer to debug
+- Stress test: needs some thoughts
+- Private methods need to be checked individually
+  - Define nested class: it has access to all methods in the outer class
+  - In nested class, define a wrapper that invokes the private method and return what that method returns
+- Errors: 
+  - Happends because requirements are unclear/ambiguous
+  - Requirements was misunderstood (not enough time put into understanding them)
+  - Errors are "small" (not small consequences)
+    - Prevent by psychological distance: stoppt v.s. stcppt
+    - Within a single routine
+    - A typo, one character etc.
+    - Ex : < v.s. <=
+  - Concentrated in some areas (small number of classes)
+    - Poorly designed
+    - Bad developer did them
+
+## Week Nine
+
+### Debugging
+
+- need to take time to understand how the code work
+- do not simply guess where the error is and what the fix would be
+  - names of routines
+  - use large psychological distance
+  - commenting: JavaDoc, etc.
+- understand not just the code, but also the process
+
+#### Process of debugging
+
+1. find the error (scientific method)
+   - gather data:
+     - unit tests
+     - debugger
+     - `git diff`: find the first version where the error ws introduced, and from diff we could see which lines of code where changed
+     - look for previous errors (eg: consistently confuse < with <=, 5% contains 50% errors)
+   - analyze data
+   - formulate hypothesis
+   - verify if the hypothesis is correct (gather more data), if not repeat
+2. fix error
+
+#### Fixing the error
+
+- understand code base, hence the fix
+- relax, do not commit the fix right away, think about the fix, do not rush
+- add unit tests
+- brute force debugging
+- 
