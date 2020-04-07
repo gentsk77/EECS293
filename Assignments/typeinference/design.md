@@ -44,7 +44,7 @@ Another example could be more complicated, where we can have multiple ancestors,
 
 In the example above, we will have two independent ancestors in the family tree since an ArrayList can both be an AbstractCollection and share the attributes as a Cloneable. As a result, the data structure to represent a type hierarchy cannot be a tree, although intuitively it does look like one.
 
-In my class design, to represent the actual inheritance attribute of the type hierarchy, I decided to use an acyclic graph with directional edges infering the directed `base` -> `derived` relationship in the inheritance. In actual use case, the structure highlighted in red should not be allowed since a cycle is created. A directional edge should only be used to address immediate inheritence between the base and the derived class. Therefore, we should use the structure highlighted in green instead, which essentially represents the same structure.
+In my class design, to represent the actual inheritance attribute of the type hierarchy, I decided to use an acyclic graph with directional edges infering the directed `base` -> `derived` relationship in the inheritance. In actual use case, the structure highlighted in red should not be allowed since a cycle is created. A directional edge should only be used to address **immediate inheritence** between the base and the derived class. Therefore, we should use the structure highlighted in green instead, which essentially represents the same structure.
 
 ![invalid exmaple](assets/invalid_eg.png)  versus ![valid example](assets/valid_eg.png)
 
@@ -54,7 +54,11 @@ A TypeHierarchy will be a package default class similar to TypeGroup. Primarily,
 
 Besides the methods and fields mentioned above, the TypeHierarchy has a `int size()` that is delecated to its typeHierchy, and a `public Iterator<Map.Entry<Type, List<Type>>> iterator()` that is delecated to the entrySet of its typeHierarchy. The major functionality of TypeHierarchy is achieved through its `final void appendBetween(TypeHierarchy other, Type base, Type derived)`. The method will append the entire type hierarchy of the derived type to the base type, make the typeHierarchy of derived in the typeSystem this typeHierarchy, and additionally add an edge directing from the base to the derived type in the typeHierarchy. Finally, the method will check whether derived was a root of other, and if not, it will add all the ancestors of other to the ancestor of this TypeHierarchy.
 
-Moreover, to support the unification algorithm in our program, TypeHierarchy has a `final Type lowestCommonAncestor(Type t1, Type t2)` that is to search for the lowest common ancestor of two given types in this TypeHierarchy. If such ancestor does not exist, an appropriate state exception will be propogated on an actual throweable cause, to be further addressed in the implementation phase.
+Moreover, to support the unification algorithm in our program, TypeHierarchy has a `final Type lowestCommonAncestor(Type t1, Type t2)` that is to search for the lowest common ancestor of two given types in this TypeHierarchy. If such ancestor does not exist, the method should return null since no suc type exists.
+
+![LCA exmaple](assets/LCA_eg.png)
+
+In the graph above, `lowestCommonAncestor(TypeD, TypeE)` will return `TypeB`, `lowestCommonAncestor(TypeC, TypeE)` will return `TypeC`, and `lowestCommonAncestor(TypeB, TypeC)` should return null since TypeB and TypeC does not share any common ancestor in the hierarchy.
 
 ### TypeSystem
 
@@ -62,6 +66,17 @@ In addition to the legacy code we have from programming assignment 2 - 5, functi
 
 - To maintain the data correlated to TypeComparator and TypeHierarchy, TypeSystem will now have a `private Map<Type, TypeComparator> comparators` and a `private Map<Type, TypeHierarchy> hierarchies`, along with their setters.
 - TypeSystem now overloads its original `public final TypeEntry add(TypeEntry typeEntry)` method by allowing additional method signature `Type`. It now has a new `public final Type add(Type type)`, which will create and assign TypeHierarchy and TypeComparator correspondingly for the input type. To adjust SimpleTypeEntry, which can be both a Type and a TypeEntry, the original add method for TypeEntry will invoke the Type version of it when the input typeEntry also qualifies as a Type.
+- TypeSystem can now allow the users to define the comparable relationship given two input Type instances already existing in the TypeSystem with a `public final boolean makeDirectlyWiderThan(Type wider, Type narrower)`:
+  - if the two given types are not in the type system, an appropriate exception should be thrown
+  - to avoid ambiguity, if the narrower is not currently the widest in its comparator system, the method won't change anything and should return false
+  - invoke `TypeComparator::appendAfter` to complete the task as addressed in the detailed design of TypeComparator. Note that if typeComparator of narrower is a list with size greater than one, all of its elements will be inserted as shown in the graph below
+  ![comparator exmaple](assets/comparator_eg.png)
+  - return a boolean status variable to indicate if the system has been changed according to the inputs
+- TypeSystem can now allow its users to define the hierarchical relationship between two given input Type instances already in the system with a `public final boolean makeDirectlyBaseOf(Type base, Type derived)`:
+  - if the two given types are not in the type system, an appropriate exception should be thrown
+  - to avoid cycle in the graph, check if two given types are already in the same TypeHierarchy, and if so, the method should change nothing and return false
+  - invoke `TypeHierarchy::appendBetween` to complete the task as addressed in the detailed design of TypeHierarchy
+  - return a status variable to indicate if the system has been changed
 - In addition to the feature supported by the original version of unify method, which only return a boolean indicating the feasibility of unification between variable types and non-variable types, TypeSystem now has a `public final TypeEntry unifyAs(TypeEntry s, TypeEntry t)` that returns an unified version of the given two TypeEntries. See below for the algorithm of unifyAs:
   - check if s and t are in the same typeGroup by checking their representatives, if so, return their representative
   - check if t and s have unifiable component types by recursively checking their underlying types and sub-types
