@@ -16,6 +16,31 @@ Major changes will be involved in the original TypeSystem and a few more new cla
 
 As for error handling, there will be a global error handler to validate all method inputs and handle exceptions whenever necessary. Customized exception class will be addressed in the next assignment when more details on the implementation are available.
 
+### TypeSystem
+
+In addition to the legacy code we have from programming assignment 2 - 5, functionality in TypeSytem will be generally updated as below:
+
+- To maintain the data correlated to TypeComparator and TypeHierarchy, TypeSystem will now have a `private Map<Type, TypeComparator> comparators` and a `private Map<Type, TypeHierarchy> hierarchies`, along with their setters.
+- TypeSystem now overloads its original `public final TypeEntry add(TypeEntry typeEntry)` method by allowing additional method signature `Type`. It now has a new `public final Type add(Type type)`, which will create and assign TypeHierarchy and TypeComparator correspondingly for the input type. To adjust SimpleTypeEntry, which can be both a Type and a TypeEntry, the original add method for TypeEntry will invoke the Type version of it when the input typeEntry also qualifies as a Type.
+- TypeSystem can now allow the users to define the comparable relationship given two input Type instances already existing in the TypeSystem with a `public final boolean makeTypeDirectlyWiderThan(Type wider, Type narrower)`:
+  - if the two given types are not in the type system, an appropriate exception should be thrown
+  - to avoid ambiguity, if the narrower is not currently the widest in its comparator system, the method won't change anything and should return false
+  - invoke `TypeComparator::appendAfter` to complete the task as addressed in the detailed design of TypeComparator. Note that if typeComparator of narrower is a list with size greater than one, all of its elements will be inserted as shown in the graph below
+  ![comparator exmaple](assets/comparator_eg.png)
+  - return a boolean status variable to indicate if the system has been changed according to the inputs
+- TypeSystem can now allow its users to define the hierarchical relationship between two given input Type instances already in the system with a `public final boolean makeTypeDirectlyBaseOf(Type base, Type derived)`:
+  - if the two given types are not in the type system, an appropriate exception should be thrown
+  - to avoid cycle in the graph, check if two given types are already in the same TypeHierarchy, and if so, the method should change nothing and return false
+  - invoke `TypeHierarchy::appendBetween` to complete the task as addressed in the detailed design of TypeHierarchy
+  - return a status variable to indicate if the system has been changed
+- In addition to the feature supported by the original version of unify method, which only return a boolean indicating the feasibility of unification between variable types and non-variable types, TypeSystem now has a `public final TypeEntry unifyAs(TypeEntry s, TypeEntry t)` that returns an unified version of the given two TypeEntries. See below for the algorithm of unifyAs:
+  - check if s and t are in the same typeGroup by checking their representatives, if so, return their representative
+  - check if t and s have unifiable component types by recursively checking their underlying types and sub-types
+    - this involves checking if they are in the same TypeComparator system or same TypeHierarchy
+    - as mentioned above, we prefer type conversion over type inheritance, thus the unified type component will be the wider type among the two if they are comparable, and if not, the LCA of the two if they are in the same hierarchy
+  - check if either representative is a variable type, if so, append their groups and return the non-variable one (or either variable if both are variable)
+- Additional helper methods will be added if necessary as I proceed to the implementation step.
+
 ### Type Conversion
 
 To support the automatic type unification feature in the scope of type conversion, I will add one more Java class, TypeComparator to the project.
@@ -58,32 +83,8 @@ Moreover, to support the unification algorithm in our program, TypeHierarchy has
 
 ![LCA exmaple](assets/LCA_eg.png)
 
-In the graph above, `lowestCommonAncestor(TypeD, TypeE)` will return `TypeB`, `lowestCommonAncestor(TypeC, TypeE)` will return `TypeC`, and `lowestCommonAncestor(TypeB, TypeC)` should return null since TypeB and TypeC does not share any common ancestor in the hierarchy.
-
-### TypeSystem
-
-In addition to the legacy code we have from programming assignment 2 - 5, functionality in TypeSytem will be generally updated as below:
-
-- To maintain the data correlated to TypeComparator and TypeHierarchy, TypeSystem will now have a `private Map<Type, TypeComparator> comparators` and a `private Map<Type, TypeHierarchy> hierarchies`, along with their setters.
-- TypeSystem now overloads its original `public final TypeEntry add(TypeEntry typeEntry)` method by allowing additional method signature `Type`. It now has a new `public final Type add(Type type)`, which will create and assign TypeHierarchy and TypeComparator correspondingly for the input type. To adjust SimpleTypeEntry, which can be both a Type and a TypeEntry, the original add method for TypeEntry will invoke the Type version of it when the input typeEntry also qualifies as a Type.
-- TypeSystem can now allow the users to define the comparable relationship given two input Type instances already existing in the TypeSystem with a `public final boolean makeDirectlyWiderThan(Type wider, Type narrower)`:
-  - if the two given types are not in the type system, an appropriate exception should be thrown
-  - to avoid ambiguity, if the narrower is not currently the widest in its comparator system, the method won't change anything and should return false
-  - invoke `TypeComparator::appendAfter` to complete the task as addressed in the detailed design of TypeComparator. Note that if typeComparator of narrower is a list with size greater than one, all of its elements will be inserted as shown in the graph below
-  ![comparator exmaple](assets/comparator_eg.png)
-  - return a boolean status variable to indicate if the system has been changed according to the inputs
-- TypeSystem can now allow its users to define the hierarchical relationship between two given input Type instances already in the system with a `public final boolean makeDirectlyBaseOf(Type base, Type derived)`:
-  - if the two given types are not in the type system, an appropriate exception should be thrown
-  - to avoid cycle in the graph, check if two given types are already in the same TypeHierarchy, and if so, the method should change nothing and return false
-  - invoke `TypeHierarchy::appendBetween` to complete the task as addressed in the detailed design of TypeHierarchy
-  - return a status variable to indicate if the system has been changed
-- In addition to the feature supported by the original version of unify method, which only return a boolean indicating the feasibility of unification between variable types and non-variable types, TypeSystem now has a `public final TypeEntry unifyAs(TypeEntry s, TypeEntry t)` that returns an unified version of the given two TypeEntries. See below for the algorithm of unifyAs:
-  - check if s and t are in the same typeGroup by checking their representatives, if so, return their representative
-  - check if t and s have unifiable component types by recursively checking their underlying types and sub-types
-    - this involves checking if they are in the same TypeComparator system or same TypeHierarchy
-    - as mentioned above, we prefer type conversion over type inheritance, thus the unified type component will be the wider type among the two if they are comparable, and if not, the LCA of the two if they are in the same hierarchy
-  - check if either representative is a variable type, if so, append their groups and return the non-variable one (or either variable if both are variable)
-- Additional helper methods will be added if necessary as I proceed to the implementation step.
+In the graph above, `lowestCommonAncestor(TypeD, TypeE)` will return `TypeB`, `lowestCommonAncestor(TypeC, TypeE)` will return `TypeC`, and `lowestCommonAncestor(TypeB, TypeC)` should return null since TypeB and TypeC does not share any common ancestor in the hierarchy. 
+// TODO: change to constant type to indicate invalid LCA
 
 ## Use Case
 
