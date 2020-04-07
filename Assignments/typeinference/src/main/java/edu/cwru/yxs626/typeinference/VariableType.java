@@ -6,7 +6,7 @@ package edu.cwru.yxs626.typeinference;
  * 
  * @author Yue Shu
  */
-public final class VariableType extends SimpleTypeEntry implements Type {
+public final class VariableType extends SimpleTypeEntry {
 
     /**
      * Determines whether the VariableType is a varialbe.
