@@ -4,15 +4,11 @@ Yue Shu
 EECS 293
 Assignment 10
 
-## General Design Logic
+## Overview
 
 Generally, the project will be supporting two features, type conversion and type inheritance, in addition to the original type inference system. As a result, I will keep the legacy code base we have from programming assignment 2 - 5, and add a few more classes and methods to support the new features we'd like to have.
 
-
-
 ## Architecture Design
-
-### Overview
 
 Major changes will be involved in the original TypeSystem and a few more new classes, TypeComparator and TypeHierarchy. As suggested in the diagram below, the users will be interacting with the program purely through interfaces left out in the TypeSystem, unaware of the encapsulated classes TypeGroup, TypeComparator, and TypeHeirarchy. In other words, TypeSystem will invoke the lower level classes and routines in its public routines, and the lower level classes will then perform the type-related tasks correspondingly.
 
@@ -58,14 +54,20 @@ A TypeHierarchy will be a package default class similar to TypeGroup. Primarily,
 
 Besides the methods and fields mentioned above, the TypeHierarchy has a `int size()` that is delecated to its typeHierchy, and a `public Iterator<Map.Entry<Type, List<Type>>> iterator()` that is delecated to the entrySet of its typeHierarchy. The major functionality of TypeHierarchy is achieved through its `final void appendBetween(TypeHierarchy other, Type base, Type derived)`. The method will append the entire type hierarchy of the derived type to the base type, make the typeHierarchy of derived in the typeSystem this typeHierarchy, and additionally add an edge directing from the base to the derived type in the typeHierarchy. Finally, the method will check whether derived was a root of other, and if not, it will add all the ancestors of other to the ancestor of this TypeHierarchy.
 
+Moreover, to support the unification algorithm in our program, TypeHierarchy has a `final Type lowestCommonAncestor(Type t1, Type t2)` that is to search for the lowest common ancestor of two given types in this TypeHierarchy. If such ancestor does not exist, an appropriate state exception will be propogated on an actual throweable cause, to be further addressed in the implementation phase.
+
 ### TypeSystem
 
 In addition to the legacy code we have from programming assignment 2 - 5, functionality in TypeSytem will be generally updated as below:
 
 - To maintain the data correlated to TypeComparator and TypeHierarchy, TypeSystem will now have a `private Map<Type, TypeComparator> comparators` and a `private Map<Type, TypeHierarchy> hierarchies`, along with their setters.
-- TypeSystem now overloads its original `public final TypeEntry add(TypeEntry typeEntry)` method by allowing additional method signature Type. It now has a new `public final Type add(Type type)`, which will create and assign TypeHierarchy and TypeComparator correspondingly for the input type. To adjust SimpleTypeEntry, which can be both a Type and a TypeEntry, the original add method for TypeEntry will also invoke the Type version of it when the input typeEntry also qualifies as a Type.
+- TypeSystem now overloads its original `public final TypeEntry add(TypeEntry typeEntry)` method by allowing additional method signature `Type`. It now has a new `public final Type add(Type type)`, which will create and assign TypeHierarchy and TypeComparator correspondingly for the input type. To adjust SimpleTypeEntry, which can be both a Type and a TypeEntry, the original add method for TypeEntry will invoke the Type version of it when the input typeEntry also qualifies as a Type.
 - In addition to the feature supported by the original version of unify method, which only return a boolean indicating the feasibility of unification between variable types and non-variable types, TypeSystem now has a `public final TypeEntry unifyAs(TypeEntry s, TypeEntry t)` that returns an unified version of the given two TypeEntries. See below for the algorithm of unifyAs:
-  - // TODO: finish this part
+  - check if s and t are in the same typeGroup by checking their representatives, if so, return their representative
+  - check if t and s have unifiable component types by recursively checking their underlying types and sub-types
+    - this involves checking if they are in the same TypeComparator system or same TypeHierarchy
+    - as mentioned above, we prefer type conversion over type inheritance, thus the unified type component will be the wider type among the two if they are comparable, and if not, the LCA of the two if they are in the same hierarchy
+  - check if either representative is a variable type, if so, append their groups and return the non-variable one (or either variable if both are variable)
 - Additional helper methods will be added if necessary as I proceed to the implementation step.
 
 ## Use Case
@@ -74,7 +76,9 @@ As suggested in the brand new unification algorithm above, the type inference sy
 
 - `Integer` and `Double` will be unified as `Double`
 - `List<Integer>` and `List<Double>` will be unified as `List<Double>`
+- `ArrayList<Double>` and `List<Integer>` will be unified as `List<Double>`
 - `ArrayList<Integer>` and `LinkedList<Double>` will be unified as `AbstractList<Double>` (instead of List in the homework example since AbstractList is a lower common ancestor of the given two types)
+- `List<T>` and `LinkedList<Integer>` will be unified as `List<Integer>`
 - `Integer` and `JFrame` cannot unify since they share no common typeComparator or typeHierarchy (except for Object)
 - `ArrayList<Integer>` and `HashMap<Integer, String>` cannot unify
 
