@@ -39,6 +39,12 @@ public final class TypeSystem {
         return typeEntry;
     }
 
+    // public final Type add(Type type) {
+    //     Objects.requireNonNull(type, "Input type entry should not be null");
+
+
+    // }
+
     /**
      * Returns the representative corresponding to the TypeGroup of the given
      * TypeEntry.
