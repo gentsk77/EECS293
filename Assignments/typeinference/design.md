@@ -13,6 +13,10 @@ Generally, the project will be supporting two features, type conversion and type
 ### Overview
 
 
+### Type Conversion
+
+
+
 ### Type Inheritance
 
 To support the automatic type unification feature in the scope of type inheritance, I will add one more Java class, TypeHierarchy to the project.
@@ -33,4 +37,7 @@ In my class design, to represent the actual inheritance attribute of the type hi
 
 #### Detailed Class Design
 
-A TypeHierarchy will be a package default class similar to TypeGroup. It has a `private final Map<Type, List<Type>> typeHierarchy`, a 
+A TypeHierarchy will be a package default class similar to TypeGroup. Primarily, it has a `private final Map<Type, List<Type>> typeHierarchy`, a `private final Set<Type> ancestor` along with its getter, and a `private final TypeSystem typeSytem`. Its private constructor `private TypeHierarchy(Map<Type, List<Type>> typeHierarchy, Set<Type> ancestor, TypeSystem typeSytem)` should not throw any exception. It has a builder `static final TypeHierarchy of(Type type, TypeSystem typeSytem)` will invoke the constructor and create a new TypeHierarchy object. The typeHierarchy will then be initialized to be a one-key map only containing the given type and the value will be an empty ArrayList. The ancestor will be a one-element set only containing the type as well. The typeSytem will be the given type system.
+
+Besides the methods and fields mentioned above, the TypeHierarchy has a `int size()` that is delecated to its typeHierchy, and a `public Iterator<Map.Entry<Type, List<Type>>> iterator()` that is delecated to the entrySet of its typeHierarchy. The major functionality of TypeHierarchy is achieved through its `final void appendBetween(TypeHierarchy other, Type base, Type derived)`. The method will append the entire type hierarchy of the derived type to the base type, make the typeHierarchy of derived in the typeSystem this typeHierarchy,and additionally add an edge directing from the base to the derived type in the typeHierarchy. Finally, the method will check whether derived was a root of other, and if not, it will add all the ancestors of other to the ancestor of this TypeHierarchy.
+
